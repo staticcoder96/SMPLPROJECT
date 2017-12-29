@@ -111,22 +111,23 @@ alphnum = {floatnum}|{alpha}
     "/"         {return mkSymbol(sym.DIV);}
     "%"         {return mkSymbol(sym.MOD);}
     "^"         {return mkSymbol(sym.POW);}
+    "."         {return mkSymbol(sym.PERIOD);}
 
     "="         {return mkSymbol(sym.EQUAL);}
     ">"         {return mkSymbol(sym.GREATERTHAN);}
     "<"         {return mkSymbol(sym.LESSTHAN);}
     "<="        {return mkSymbol(sym.LESSEQUAL);}
-    ">="        {return mkSymbol(sym.GREATEQUAL);}
+    ">="        {return mkSymbol(sym.GREATERQUAL);}
     "!="        {return mkSymbol(sym.NOTEQUAL);}
 
-    "not"       {return mkSymbol(sym.NOT);}
-    "and"       {return mkSymbol(sym.AND);}
-    "or"        {return mkSymbol(sym.OR);}
+    "not"       {return mkSymbol(sym.LNOT);}
+    "and"       {return mkSymbol(sym.LAND);}
+    "or"        {return mkSymbol(sym.LOR);}
 
     "@"        {return mkSymbol(sym.CONCAT);}
-    "~"        {return mkSymbol(sym.TILDE);}
-    "|"        {return mkSymbol(sym.BAR);}
-    "&"       {return mkSymbol(sym.AMPERSAND);}
+    "~"        {return mkSymbol(sym.BNOT);}
+    "|"        {return mkSymbol(sym.BOR);}
+    "&"       {return mkSymbol(sym.BAND);}
 
     
 
@@ -156,18 +157,18 @@ alphnum = {floatnum}|{alpha}
 
     "if|IF"        {return mkSymbol(sym.IF);}
     "then|THEN"      {return mkSymbol(sym.THEN);}
+    "else|ELSE"      {return mkSymbol(sym.ELSE);}
     "case|CASE"      {return mkSymbol(sym.CASE);}
     "print|PRINT"     {return mkSymbol(sym.PRINT);}
     "println|PRINTLN"   {return mkSymbol(sym.PRINTLN);}
 
     "read|READ"      {return mkSymbol(sym.READ);}
     "readint|READINT"   {return mkSymbol(sym.READINT);}
-    "/*....*/"  {return mkSymbol(sym.BLOCKCOMMENT);}
 
     "pair"   {return mkSymbol(sym.PAIR);}
     "car"   {return mkSymbol(sym.CAR);}
     "cdr"   {return mkSymbol(sym.CDR);}
-    "pair?" {return mkSymbol(sym.ISPAIR);}
+    "pair?" {return mkSymbol(sym.PAIRCHECK);}
     "list"   {return mkSymbol(sym.LIST);}
     "[:"   {return mkSymbol(sym.LVECTOR);}
     ":]"   {return mkSymbol(sym.RVECTOR);}
