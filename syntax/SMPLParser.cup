@@ -53,9 +53,14 @@ terminal BAND, BOR, BNOT;
 
 terminal LNOT, LAND, LOR;
 
+//comparators
+terminal EQUAL, GREATERTHAN, LESSTHAN, LESSEQUAL, GREATEREQUAL, NOTEQUAL;
+
 /* Keywords */
 terminal PAIR, PAIRCHECK, CAR, CDR, PRINT, PRINTLN, READ, READINT, LIST, PROC, SUBSTR;
-terminal PROC, CALL, LAZY, LET, DEF;
+terminal PROC, CALL, LAZY, LET, DEF, ISEQUAL,ISEQUIVALENT,SIZE, LVECTOR, RVECTOR;
+terminal IF, THEN, ELSE, CASE, CONCAT;
+
 
 // terminals with values
 terminal Integer INTEGER;
@@ -216,9 +221,9 @@ relexp ::=	relexp:r GREATERTHAN bitexp:bi{:
 			RESULT = new ExpNotEqual(r, bi); :}
 		bitexp:bi {: RESULT = bi; :};
 
-bitexp ::= 	bitexp:bi AMBERSAND term:t {:
+bitexp ::= 	bitexp:bi BAND term:t {:
 			RESULT = new ExpBitAnd(bi, t); :} |
-		bitexp:bi BAR term:t {:
+		bitexp:bi BOR term:t {:
 			RESULT = new ExpBitOr(bi, t); :} |
 		arithexp:a {: RESULT = a; :};
 
@@ -236,7 +241,7 @@ term ::= term:t MUL bitnot:b  {:
 		RESULT = new ExpMod(t, b); :} |
 	 bitnot:b  {: RESULT = b; :};
 	 
-bitnot ::= TILDE power:p {: RESULT = new ExpBitNot() :} |
+bitnot ::= BNOT power:p {: RESULT = new ExpBitNot() :} |
 	   power:p {: RESULT = p; :};
 	 
 power ::= factor:f POW power:p{:
