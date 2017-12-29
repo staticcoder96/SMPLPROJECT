@@ -1,9 +1,6 @@
-package smpl.syntax;
+import MySMPL.sys.SmplException;
 
-import smpl.semantics.Visitor;
-import smpl.sys.SmplException;
-
-public class ExpEq extends Exp {
+public class ExpEqual extends Exp {
 
   Exp exp1, exp2;
 
