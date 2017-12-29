@@ -194,12 +194,15 @@ definition ::= DEF VARIABLE:v ASSIGN expression:e {:
 		idList:v COLON ASSIGN expression:e {:
 		   RESULT = new StmtDefinition(v, e);
 		:};
+
+expression ::= logicor:lo{:
+		RESULT = lo; :};
 		
-logicor ::= logicor or logica:la{:
+logicor ::= logicor:lo or logica:la{:
 		RESULT = new ExpLogicOr(lo,la); :} |
 	     logicand:la {: RESULT = la; :};
 		
-logicand ::= logicand and logicnot:ln{:
+logicand ::= logicand:la and logicnot:ln{:
 		RESULT = new ExpLogicAnd(la,ln); :} |
 	     logicnot:ln {: RESULT = ln; :};		
 		
