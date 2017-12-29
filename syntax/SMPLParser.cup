@@ -44,12 +44,17 @@ scan with {:
 /* Terminals (tokens returned by the scanner). */
 
 // special symbols
-terminal LPAREN, RPAREN, LBRACE, RBRACE, LCBRACE, RCBRACE, COMMA, COLON, SEMICOLON;
+terminal LPAREN, RPAREN, LBRACE, RBRACE, LCBRACE, RCBRACE, COMMA, COLON, SEMICOLON, PERIOD;
 
 // arithmetic operators
-terminal PLUS, MINUS, MUL, DIV, MOD, ASSIGN;
+terminal PLUS, MINUS, MUL, DIV, MOD, POW, ASSIGN;
+
+terminal BAND, BOR, BNOT;
+
+terminal LNOT, LAND, LOR;
 
 /* Keywords */
+terminal PAIR, PAIRCHECK, CAR, CDR, PRINT, PRINTLN, READ, READINT, LIST, PROC, SUBSTR;
 terminal PROC, CALL, LAZY, LET, DEF;
 
 // terminals with values
@@ -61,7 +66,7 @@ non terminal SmplProgram program;
 non terminal StmtSequence stmtList;
 non terminal Statement stmt;
 non terminal StmtDefinition definition;
-non terminal StmtDefinition fnDefn;
+non terminal StmtDefinition procDefn;
 non terminal ArrayList idList;
 non terminal ArrayList idListE;
 
@@ -90,7 +95,13 @@ stmtList ::= stmtList:lst stmt:s {:
 
 stmt ::= definition:d SEMI {: RESULT = d; :} |
      	 fnDefn |
-	 valStmt:vs {: RESULT = vs; :};
+	 valStmt:vs {: RESULT = vs; :}|
+	 letStmt:ls {: RESULT = ls; :}|
+	 callStmt:cs {: RESULT = cs; :}|
+	 pairStmt:ps {: RESULT = ps; :}
+	 callStmt:cs {: RESULT = cs; :}|
+	 lazyStmt:zs {: RESULT = zs; :}|
+	 ifStmt:is {: RESULT = is; :}|;
 
 valStmt ::= letStmt:l {: RESULT = l; :} |
 	    expression:e SEMI {: RESULT = new Statement(e); :};
@@ -101,6 +112,19 @@ letStmt ::= LET LBRACE bindings:bs RBRACE stmtList:body{:
 		
 pairStmt::= pair LPAREN expression:e1 COMMA expression e2 RPAREN {:
 		RESULT = new makePair(e1,e2);	
+		:};
+		
+pairCheck ::= PAIRCHECK LPAREN expression:e RPAREN {:
+			RESULT = new ExpPairCheck(e); :};
+
+car ::= CAR LPAREN expression:e RPAREN {:
+			RESULT = new ExpCar(e); :};
+
+cdr ::= CDR LPAREN expression:e RPAREN {:
+			RESULT = new ExpCdr(e); :};
+
+substr ::= SUBSTR LPAREN expression:e1 COMMA expression:e2 COMMA expression:e3 RPAREN {:
+			RESULT = new ExpSubStr(e1, e2, e3);
 		:};
 
 callStmt::= CALL LPAREN procDefn:f COMMA idList:lst RPAREN{:
@@ -165,21 +189,59 @@ definition ::= DEF VARIABLE:v ASSIGN expression:e {:
 		idList:v COLON ASSIGN expression:e {:
 		   RESULT = new StmtDefinition(v, e);
 		:};
+		
+logicor ::= logicor or logica:la{:
+		RESULT = new ExpLogicOr(lo,la); :} |
+	     logicand:la {: RESULT = la; :};
+		
+logicand ::= logicand and logicnot:ln{:
+		RESULT = new ExpLogicAnd(la,ln); :} |
+	     logicnot:ln {: RESULT = ln; :};		
+		
+logicnot ::= not relexp:r{:
+		RESULT = new ExpLogicNot(r); :} |
+	     relexp:r {: RESULT = r; :};
 
+relexp ::=	relexp:r GREATERTHAN bitexp:bi{:
+			RESULT = new ExpGreater(r, bi); :} |
+		relexp:r LESSTHAN bitexp:bi{:
+			RESULT = new ExpLess(r, bi); :} |
+		relexp:r EQUAL bitexp:bi{:
+			RESULT = new ExpEqual(r, bi); :} |
+		relexp:r GREATEREQUAL bitexp:bi{:
+			RESULT = new ExpGreatEq(r, bi); :} |
+		relexp:r LESSEQUAL bitexp:bi{:
+			RESULT = new ExpLessEq(r, bi); :} |
+		relexp:r NOTEQUAL bitexp:bi{:
+			RESULT = new ExpNotEqual(r, bi); :}
+		bitexp:bi {: RESULT = bi; :};
 
-expression ::= 	expression:e PLUS term:t {:
-			RESULT = new ExpAdd(e, t); :} |
-		expression:e MINUS term:t {:
-			RESULT = new ExpSub(e, t); :} |
+bitexp ::= 	bitexp:bi AMBERSAND term:t {:
+			RESULT = new ExpBitAnd(bi, t); :} |
+		bitexp:bi BAR term:t {:
+			RESULT = new ExpBitOr(bi, t); :} |
+		arithexp:a {: RESULT = a; :};
+
+arithexp ::= 	arithexp:a PLUS term:t {:
+			RESULT = new ExpAdd(a, t); :} |
+		arithexp:a MINUS term:t {:
+			RESULT = new ExpSub(a, t); :} |
 		term:t {: RESULT = t; :};
 
-term ::= term:t MUL factor:f {:
-		RESULT = new ExpMul(t, f); :} |
-	 term:t DIV factor:f {:
-		RESULT = new ExpDiv(t, f); :} |
-	 term:t MOD factor:f {:
-		RESULT = new ExpMod(t, f); :} |
-	 factor:f {: RESULT = f; :};
+term ::= term:t MUL bitnot:b  {:
+		RESULT = new ExpMul(t, b); :} |
+	 term:t DIV bitnot:b   {:
+		RESULT = new ExpDiv(t, b); :} |
+	 term:t MOD bitnot:b   {:
+		RESULT = new ExpMod(t, b); :} |
+	 bitnot:b  {: RESULT = b; :};
+	 
+bitnot ::= TILDE power:p {: RESULT = new ExpBitNot() :} |
+	   power:p {: RESULT = p; :};
+	 
+power ::= factor:f POW power:p{:
+		RESULT = new ExpPow(p,f); :}|
+	  factor:f {: RESULT = f; :};
 
 factor ::= INTEGER:ilit {: RESULT = new ExpLit(ilit); :} |
 	   VARIABLE:var {: RESULT = new ExpVar(var); :} |
