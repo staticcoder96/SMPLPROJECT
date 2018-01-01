@@ -15,7 +15,7 @@ import java.util.*;
 public class Environment {
 
     HashMap<String, G> dictionary;       //current environment  
-    Environment<G> parent = null;        // parent envornment
+    Environment parent = null;        // parent envornment
 
     
 
@@ -24,9 +24,22 @@ public class Environment {
      *
      */
     public Environment(){
-        dictionary = new HashMap<String, G>();
+        dictionary = new HashMap<>();
         parent = null;
     }
+
+
+    /**
+     * Create a new environment with an empty first area that inherits the
+     * bindings of the given environment.
+     *
+     * @param p The parent environment of the new environment
+     */
+    public Environment(Environment p) {
+	dictionary = new HashMap<>();
+	parent = p;
+    }
+
 
 
     /* This does not extend the new environment. It adds to the current environment*/
@@ -76,7 +89,7 @@ public class Environment {
      * @param values The corresponding list of values to be bound
      * @param parent The environment being extended.
      */
-    public Environment(ArrayList<String> ids, ArrayList<G> values, Environment<G> parent) {
+    public Environment(ArrayList<String> ids, ArrayList<G> values, Environment parent) {
         dictionary = new HashMap<>();
         parent = parent;
         for (int i = 0; i < ids.size(); i++) {
@@ -93,8 +106,8 @@ public class Environment {
      *
      * @return the <code>Environment</code> created.
      */
-    public static <G extends SmplValue<G>> Environment<T> makeGlobalEnv() {
-    Environment<G> result =  new Environment<>();
+    public static Environment makeGlobalEnv() {
+    Environment result =  new Environment();
     return result;
     }
 
