@@ -1,32 +1,25 @@
-public class StmtPrint extends Exp {
+public class StmtPrintLn extends Exp{
 
-	Exp exp;
-	char esc;
+    Exp exp;
 
-	public StmtPrint(Exp e){
-		this(e, '\0');
-	}
+    public StmtPrint(){
+    }
 
-	public StmtPrint(Exp e, char t) {
-		exp = e;
-		terminator = t;
-	}
+    public StmtPrint(Exp exp){
+        this.exp = exp;
+    }
 
-	public Exp getExp(){
-		return exp;
-	}
+    public Exp getExp(){
+        return exp;
+    }
 
-	public char getEscChar(){
-		return esc;
-	}
+    @Override
+    public <S, T> T visit(SMPLVisitor<S, T> v, S arg) throws SMPLException{
+        return v.visitPrintStmt(this, arg);
+    }
 
-	@Override
-	public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException {
-		return v.visitStmtPrint(this, arg);
-	}
-
-	@Override
-	public String toString() {
-		return exp.toString() + esc;
-	}
+    @Override
+    public String toString(){
+        return "print: " + Exp.toString();
+    }
 }
