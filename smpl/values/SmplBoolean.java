@@ -49,7 +49,7 @@ public class SmplBoolean extends SmplValue{
 			return make(!val);
 	}
 
-	@Override
+	//@Override
 	public boolean boolValue() throws SmplTypeException {
 		return val;
 	}

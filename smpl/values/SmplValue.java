@@ -1,5 +1,6 @@
 package smpl.values;
 
+import java.util.*;
 import smpl.sys.SmplException;
 import smpl.sys.SmplTypeException;
 
@@ -25,6 +26,14 @@ public class SmplValue {
         return new SmplChar(val);
     }
     
+    public static SmplValue makeStr(String val) {
+        return new SmplString(val);
+    }
+
+    public static SmplValue makeList(ArrayList<?> val) {
+        return new SmplList(val);
+    }
+
     public SmplValue(SmplTypes type) {
         this.type = type;
     }

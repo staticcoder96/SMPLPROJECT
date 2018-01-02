@@ -108,7 +108,7 @@ public class SmplRepl<S, T> {
 
         System.out.print(PROMPT);
         try {
-            parser = new SmplParser(new SMPLLexer(reader));
+            parser = new SmplParser(new smplLexer(reader));
             program = (SmplProgram) parser.parse().value;
         } catch (Exception e) {
             System.out.println("Parse Error: " + e.getMessage());

@@ -4,7 +4,6 @@
 package smpl.syntax;
 import java_cup.runtime.*;
 import smpl.sys.SmplException;
-import smpl.sys.SmplLexerException;
 
 // JFlex directives
     
