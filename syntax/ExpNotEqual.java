@@ -1,13 +1,8 @@
-package smpl.syntax;
-
-import smpl.semantics.Visitor;
-import smpl.sys.SmplException;
-
-public class ExpNeq extends Exp {
+public class ExpNotEqual extends Exp{
 
   Exp exp1, exp2;
 
-  public ExpNeq(Exp e1, Exp e2) {
+  public ExpNotEqual(Exp e1, Exp e2){
     exp1 = e1;
     exp2 = e2;
   }
@@ -16,17 +11,17 @@ public class ExpNeq extends Exp {
     return exp1;
   }
 
-  public Exp getExpR() {
+  public Exp getExpR(){
     return exp2;
   }
 
   @Override
-  public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException {
+  public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException{
     return v.visitExpNeq(this, arg);
   }
 
   @Override
-  public String toString() {
+  public String toString(){
     return exp1.toString() + " != " + exp2.toString();
   }
 }
