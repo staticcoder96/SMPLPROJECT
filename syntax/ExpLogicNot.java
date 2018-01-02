@@ -1,13 +1,8 @@
-package MySMPL.syntax;
-
-import MySMPL.semantics.Visitor;
-import MySMPL.sys.SmplException;
-
-public class ExpLogicNot extends Exp {
+public class ExpLogicNot extends Exp{
 
   Exp exp;
 
-  public ExpLogicNot(Exp e) {
+  public ExpLogicNot(Exp e){
     exp = e;
   }
 
@@ -16,12 +11,12 @@ public class ExpLogicNot extends Exp {
   }
 
   @Override
-  public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException {
+  public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException{
     return v.visitExpLogicNot(this, arg);
   }
 
   @Override
-  public String toString() {
+  public String toString(){
     return "not " + exp.toString();
   }
 }
