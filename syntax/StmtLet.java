@@ -1,3 +1,9 @@
+package smpl.syntax;
+
+import java.util.*;
+import smpl.semantics.Visitor;
+import smpl.sys.SmplException;
+
 public class StmtLet extends Exp {
 
 	ArrayList<Binding> bindings;
