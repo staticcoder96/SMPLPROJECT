@@ -1,4 +1,9 @@
+package smpl.syntax;
+
+import smpl.semantics.Visitor;
+import smpl.sys.SmplException;
 import java.util.*;
+
 public class StmtSequence extends Exp {
 
     ArrayList<Statement> seq;		
