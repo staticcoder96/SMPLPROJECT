@@ -1,3 +1,9 @@
+package smpl.syntax;
+
+import smpl.semantics.Visitor;
+import smpl.sys.SmplException;
+import java.util.*;
+
 public class StmtDefinition extends Exp{
 
 	ArrayList<String> vars;
