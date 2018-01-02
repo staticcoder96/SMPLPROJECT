@@ -1,3 +1,8 @@
+package smpl.syntax;
+
+import smpl.semantics.Visitor;
+import smpl.sys.SmplException;
+
 public class ExpSubStr extends Exp{
 
   Exp exp1, exp2, exp3;
