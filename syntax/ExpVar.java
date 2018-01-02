@@ -1,4 +1,4 @@
-public class ExpVar extends Exp {
+public class ExpVar extends Exp{
 
 	String var;
 
@@ -11,12 +11,12 @@ public class ExpVar extends Exp {
 	}
 
 	@Override
-	public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException {
+	public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException{
 		return v.visitExpVar(this, arg);
 	}
 
 	@Override
-	public String toString() {
+	public String toString(){
 		return var;
 	}
 }
