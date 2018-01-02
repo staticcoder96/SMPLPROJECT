@@ -1,3 +1,8 @@
+package smpl.syntax;
+
+import smpl.semantics.Visitor;
+import smpl.sys.SmplException;
+
 public class ExpIf extends Exp {
 
   Exp con, ifArg, elseArg;
