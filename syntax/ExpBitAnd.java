@@ -1,7 +1,7 @@
 package smpl.syntax;
 
 import smpl.semantics.Visitor;
-import smpl.sys.FractalException;
+import smpl.sys.SmplException;
 
 public class ExpBitAnd extends Exp {
 
