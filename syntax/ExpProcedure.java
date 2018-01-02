@@ -4,18 +4,18 @@ import smpl.semantics.Visitor;
 import smpl.sys.SmplException;
 import java.util.*;
 
-public class ExpProcedure extends Exp {
+public class ExpProc extends Exp {
 
   ArrayList<String> params;
   ArrayList<Exp> exps;
   Exp body;
   String listvar;
 
-  public ExpProcedure(){
+  public ExpProc(){
     super();
   }
 
-  public ExpProcedure(ArrayList<String> params, Exp body){
+  public ExpProc(ArrayList<String> params, Exp body){
     this(params, body, null);
   }
 
@@ -23,21 +23,21 @@ public class ExpProcedure extends Exp {
     this(new ArrayList(), body, listvar);
   }
 
-  public ExpProcedure(ArrayList<String> params, Exp body, String listvar){
+  public ExpProc(ArrayList<String> params, Exp body, String listvar){
     this.params = params;
     this.body = body;
     this.listvar = listvar;
   }
 
-  public ExpProcedure(ArrayList<String> params, ArrayList<Exp> exps){
+  public ExpProc(ArrayList<String> params, ArrayList<Exp> exps){
     this(params, exps, null);
   }
 
-  public ExpProcedure(ArrayList<Exp> exps, String listvar){
+  public ExpProc(ArrayList<Exp> exps, String listvar){
     this(new ArrayList(), exps, listvar);
   }
 
-  public ExpProcedure(ArrayList<String> params, ArrayList<Exp> exps, String listvar){
+  public ExpProc(ArrayList<String> params, ArrayList<Exp> exps, String listvar){
     this.params = params;
     this.exps = exps;
     this.listvar = listvar;
