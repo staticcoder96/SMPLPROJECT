@@ -1,14 +1,6 @@
-package MySMPL.syntax;
-
-import MySMPL.semantics.Visitor;
-import MySMPL.sys.SmplException;
-import java.util.*;
-import MySMPL.values.*;
-
 public class ExpCall extends Exp {
 
-  Exp exp;
-  Exp lst;
+  Exp exp, lst;
 
   public ExpCall(Exp e){
     exp = e;
