@@ -1,9 +1,3 @@
-package MySMPL.syntax;
-
-import MySMPL.semantics.Visitor;
-import MySMPL.sys.SmplException;
-
-
 public class ExpIf extends Exp {
 
   Exp con, ifArg, elseArg;
@@ -51,11 +45,11 @@ public class ExpIf extends Exp {
   public String toString() {
     if(ifelse)
     {
-    	return "IF " +con.toString() +" THEN " +ifArg.toString() +" [ELSE " +elseArg.toString() +"]"; 
+    	return "if " +con.toString() +" then " +ifArg.toString() +" [else " +elseArg.toString() +"]"; 
     }
     else
     { 
-    	return "IF " +con.toString() +" THEN " +ifArg.toString(); 
+    	return "if " +con.toString() +" then " +ifArg.toString(); 
     }
   }
 }
