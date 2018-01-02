@@ -1,7 +1,7 @@
-package fractal.values;
+package smpl.values;
 
-import fractal.sys.SmplException;
-import fractal.sys.SmplTypeException;
+import smpl.sys.SmplException;
+import smpl.sys.SmplTypeException;
 
 public class SmplReal extends SmplValue {
     
