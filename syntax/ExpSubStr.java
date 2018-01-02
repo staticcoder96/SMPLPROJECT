@@ -1,13 +1,8 @@
-package smpl.syntax;
-
-import smpl.semantics.Visitor;
-import smpl.sys.SmplException;
-
-public class ExpSubStr extends Exp {
+public class ExpSubStr extends Exp{
 
   Exp exp1, exp2, exp3;
 
-  public ExpSubStr(Exp e1, Exp e2, Exp e3) {
+  public ExpSubStr(Exp e1, Exp e2, Exp e3){
     exp1 = e1;
     exp2 = e2;
     exp3 = e3;
@@ -17,11 +12,11 @@ public class ExpSubStr extends Exp {
     return exp1;
   }
 
-  public Exp getStartIndex(){
+  public Exp getStart(){
     return exp2;
   }
 
-  public Exp getEndIndex(){
+  public Exp getEnd(){
     return exp3;
   }
 
