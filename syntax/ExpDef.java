@@ -1,7 +1,7 @@
 public class ExpDef extends Exp{
 
-	String var;
 	Exp exp;
+	String var;
 
 	public ExpDef(String id, Exp e){
 		var = id;
