@@ -1,8 +1,3 @@
-package MySMPL.syntax;
-
-import MySMPL.sys.SMPLException;
-
-
 public class ExpBitOr extends Exp {
 
     Exp exp1, exp2;
