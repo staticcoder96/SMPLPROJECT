@@ -2,5 +2,8 @@ package smpl.values;
 
 public enum SmplTypes {
     INTEGER,
-    REAL;
+    REAL,
+    BOOLEAN,
+    CHAR,
+    STRING;
 }
