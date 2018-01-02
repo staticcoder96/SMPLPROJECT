@@ -1,8 +1,3 @@
-package smpl.syntax;
-
-import smpl.semantics.Visitor;
-import smpl.sys.SmplException;
-
 public class ExpDiv extends Exp {
 
   Exp exp1, exp2;
