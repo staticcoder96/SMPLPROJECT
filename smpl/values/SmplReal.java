@@ -47,18 +47,18 @@ public class SmplReal extends SmplValue {
     @Override
     public SmplValue mul(SmplValue val) throws SmplException {
         if (val.isNumber()) {
-            return new SmplReal(realValue() / val.realValue());
+            return new SmplReal(realValue() * val.realValue()); // why is there a div sign for multiple
         } else {
             throw new SmplTypeException(SmplTypes.REAL, val.getType());
         }
     }
 
     @Override
-    public FractalValue div(FractalValue val) throws FractalException {
+    public SmplValue div(SmplValue val) throws SmplException {
         if (val.isNumber()) {
-            return new FractalReal(realValue() / val.realValue());
+            return new SmplReal(realValue() / val.realValue());
         } else {
-            throw new FractalTypeException(FractalTypes.REAL, val.getType());
+            throw new SmplTypeException(SmplTypes.REAL, val.getType());
         }
     }
     

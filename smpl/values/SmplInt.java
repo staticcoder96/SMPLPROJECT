@@ -69,7 +69,7 @@ public class SmplInt extends SmplValue {
     }
     
     @Override
-    public SmplValue mod(FSmplValue val) throws SmplException {
+    public SmplValue mod(SmplValue val) throws SmplException {
         if (! val.isNumber()) {
             throw new SmplTypeException(SmplTypes.REAL, val.getType());
         } else if (val.isInt()) {

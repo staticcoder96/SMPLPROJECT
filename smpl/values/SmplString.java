@@ -8,12 +8,12 @@ public class SmplString extends SmplValue {
 	String val;
 
 	public SmplString(String v){
-		super(SmplTypes.STRING;
+		super(SmplTypes.STRING);
 		val = v;
 	}
 
-	public SmplType getType(){
-		return SmplType.STRING;
+	public SmplTypes getType(){
+		return SmplTypes.STRING;
 	}
 
 	@Override

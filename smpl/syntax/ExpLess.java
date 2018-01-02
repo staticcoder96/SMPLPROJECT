@@ -3,11 +3,11 @@ package smpl.syntax;
 import smpl.semantics.Visitor;
 import smpl.sys.SmplException;
 
-public class ExpPair extends Exp{
+public class ExpLess extends Exp{
 
   Exp exp1, exp2;
 
-  public ExpPair(Exp e1, Exp e2){
+  public ExpLess(Exp e1, Exp e2){
     exp1 = e1;
     exp2 = e2;
   }
@@ -22,12 +22,12 @@ public class ExpPair extends Exp{
 
   @Override
   public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException{
-    return v.visitExpPair(this, arg);
+    return v.visitExpLess(this, arg);
   }
 
   @Override
   public String toString(){
-    return "(" + exp1.toString() + "." + exp2.toString() + ")";
+    return exp1.toString() + " < " + exp2.toString();
   }
 }
 

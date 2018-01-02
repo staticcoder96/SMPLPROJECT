@@ -4,9 +4,9 @@ import smpl.semantics.Visitor;
 import smpl.sys.SmplException;
 
 public class SmplProgram extends Exp{
-    StmtSeq seq;
+    StmtSequence seq;
 
-    public SmplProgram(StmtSeq s){
+    public SmplProgram(StmtSequence s){
 	   seq = s;
     }
 

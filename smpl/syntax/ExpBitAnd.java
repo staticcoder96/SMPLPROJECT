@@ -21,8 +21,8 @@ public class ExpBitAnd extends Exp {
     }
 
     @Override
-    public <S, T> T visit(SMPLVisitor<S, T> v, S arg) throws SMPLException {
-        return v.visitExpBitOr(this, arg);
+    public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException {
+        return v.visitExpBitAnd(this, arg);
     }
 
     @Override

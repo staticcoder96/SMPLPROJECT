@@ -7,7 +7,7 @@ public class ExpGreatEq extends Exp{
 
   Exp exp1, exp2;
 
-  public ExpGe(Exp e1, Exp e2){
+  public ExpGreatEq(Exp e1, Exp e2){
     exp1 = e1;
     exp2 = e2;
   }

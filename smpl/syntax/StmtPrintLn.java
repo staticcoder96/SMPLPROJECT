@@ -19,8 +19,8 @@ public class StmtPrintLn extends Exp{
     }
 
     @Override
-    public <S, T> T visit(SMPLVisitor<S, T> v, S arg) throws SMPLException{
-        return v.visitPrintStmt(this, arg);
+    public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException{
+        return v.visitPrintLnStmt(this, arg);
     }
 
     @Override

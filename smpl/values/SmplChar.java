@@ -17,8 +17,8 @@ public class SmplChar extends SmplValue{
 	}
 
 	@Override
-	public SmplType getType(){
-		return SmplType.CHARACTER;
+	public SmplTypes getType(){
+		return SmplTypes.CHAR;
 	}
 
 	@Override

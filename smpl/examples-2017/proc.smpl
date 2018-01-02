@@ -1,0 +1,7 @@
+println("Should print 3 then 81, then return 81");
+
+println((proc(n) n + 1)(2));  // print 3
+
+println((proc(f,x) (f(f(x))))(proc(n) n * n, 3));  // should print 81
+
+(proc(f,x) (proc(m) f(f(m)))(x))(proc(n) n * n, 3);  // should return 81

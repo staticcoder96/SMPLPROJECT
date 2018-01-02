@@ -19,10 +19,8 @@ public class Statement extends Exp{
 	return exp;
     }
 
-    public Object visit(Visitor v, Object arg)
-	throws Exception
-    {
-	return v.visitStatement(this, arg);
+    public Object visit(Visitor v, Object arg) throws SmplException {
+	   return v.visitStatement(this, arg);
     }
 
     public String toString() {

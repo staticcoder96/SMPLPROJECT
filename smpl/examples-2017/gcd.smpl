@@ -1,0 +1,14 @@
+def gcd proc(a , b)
+case {
+ a < b : gcd(b,a),
+ b = 0 : a,
+ else : gcd(b, a % b)
+};
+
+println("Should print 4 and return the same value");
+
+print("gcd of 100 and 72 is ");
+println(gcd(100, 72));
+
+gcd(72, 100);  // should return the same value
+

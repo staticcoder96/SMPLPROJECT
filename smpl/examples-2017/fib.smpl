@@ -1,0 +1,25 @@
+def fib proc(n)
+  /* return the nth fibonacci 
+     number */
+  if n <= 1
+     then 1
+     else fib(n - 1) + fib(n - 2);
+
+def fibIter proc(n) {
+  /* iterative implementation of fib */
+  def fibHelper proc(m, fn1, fn2)
+    if m = n
+       then fn1 + fn2
+       else fibHelper(m + 1, fn1 + fn2, fn1);
+
+  if n < 2
+     then 1
+     else fibHelper(2, 1, 1);
+};
+
+println("Should print 89 and return 89");
+
+println(fib(10));
+
+fibIter(10); // should return the same value as printed
+

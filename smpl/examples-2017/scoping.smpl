@@ -1,0 +1,13 @@
+def n 3;
+
+def f proc(m) m + n;
+
+def g proc(m)
+  let (n = 2)
+   f(m + n);
+
+println("Static scoping prints 8, dynamic prints 7");
+println(g(5));  // returns 8 with static scoping, 7 with dynamic scoping
+
+println("Should return 7 with either scoping rule");
+f(4);  // returns 7 in both cases

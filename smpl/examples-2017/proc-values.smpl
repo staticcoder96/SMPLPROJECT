@@ -1,0 +1,14 @@
+def vectorMap proc(f, v)
+  /* return a newly allocated vector
+     obtained by applying f to each
+     element of v. */
+
+  [: size(v): proc(i) f(v[i]) :]
+;
+
+def fs [: proc(n) n + 1, proc(n) n * 2, proc(n) n * n :] ;
+def vals [: 1, 2, 3 :] ;
+print("Should return [: [: 2 3 4 :] [: 2 4 6 :] [: 1 4 9 :] :]") ;
+print("\n") ;
+vectorMap(proc(f) vectorMap(f, vals), fs) ;
+

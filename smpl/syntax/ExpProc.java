@@ -19,7 +19,7 @@ public class ExpProc extends Exp {
     this(params, body, null);
   }
 
-  public ExpProcedure(Exp body, String listvar){
+  public ExpProc(Exp body, String listvar){
     this(new ArrayList(), body, listvar);
   }
 

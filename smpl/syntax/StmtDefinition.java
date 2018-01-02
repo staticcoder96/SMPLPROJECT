@@ -44,12 +44,13 @@ public class StmtDefinition extends Exp{
 
 	@Override
 	public String toString() {
-		if(vr != null)
+		if(vr != null){
 			vr.toString() = r.toString();
-      return vr.toString();
-  }
+      		return vr.toString();
+  		}
 		else{
 			vars.toString() =exps.toString();
-      return vars.toString()
+      		return vars.toString();
+      	}
 	}
 }

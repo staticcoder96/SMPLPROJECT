@@ -10,14 +10,22 @@ public class SmplValue {
     private SmplTypes type;
     
     public static SmplValue make(int val) {
-        return new FSmplInt(val);
+        return new SmplInt(val);
     }
     
     public static SmplValue make(double val) {
         return new SmplReal(val);
     }
+
+    public static SmplValue make(boolean val) {
+        return new SmplBoolean(val);
+    }
+
+    public static SmplValue make(char val) {
+        return new SmplChar(val);
+    }
     
-    public SmplValue(Smplypes type) {
+    public SmplValue(SmplTypes type) {
         this.type = type;
     }
     
@@ -43,7 +51,7 @@ public class SmplValue {
      * @throws SmplException if this value does not represent an integer 
      */
     public int intValue() throws SmplException {
-        throw new SmplTypeException(FSmplTypes.INTEGER, type);
+        throw new SmplTypeException(SmplTypes.INTEGER, type);
     }
 
     /**
@@ -113,7 +121,7 @@ public class SmplValue {
      * @throws SmplException if the types of this value and the given one are
      * incompatible.
      */
-    public FSmplValue div(SmplValue val) throws SmplException {
+    public SmplValue div(SmplValue val) throws SmplException {
         throw new SmplTypeException(SmplTypes.REAL, val.getType());
     }
     

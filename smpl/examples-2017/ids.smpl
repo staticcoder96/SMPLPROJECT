@@ -1,0 +1,7 @@
+def x 3 ;
+def y1 4;
+def 2y 5;
+
+print("x="); print(x);
+print("y1="); print(y1);
+print("2y="); print(2y);

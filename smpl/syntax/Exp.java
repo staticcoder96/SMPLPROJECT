@@ -1,3 +1,3 @@
 package smpl.syntax;
-public abstract class Exp extends Statement {
+public abstract class Exp extends ASTNode {
 }

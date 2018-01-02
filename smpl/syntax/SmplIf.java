@@ -1,29 +1,25 @@
-package MySMPL.syntax;
+package smpl.syntax;
 
-import MySMPL.semantics.Visitor;
-import MySMPL.sys.SmplException;
+import smpl.semantics.Visitor;
+import smpl.sys.SmplException;
 
-
-public class ExpIf extends Exp {
+public class SmplIf extends Exp {
 
   Exp con, ifArg, elseArg;
   Boolean ifelse;
 
-  public ExpIf(Exp con, Exp ifArg, Exp elseArg){
+  public SmplIf(Exp con, Exp ifArg, Exp elseArg){
 
     this.con = con;
     this.ifArg = ifArg;
     this.elseArg = elseArg;
 
-    if(elseArg != null)
-    {
-    	this.ifelse= true;
+    if(elseArg != null){
+      this.ifelse= true;
     }
-    else
-    { 
-    	this.ifelse = false; 
+    else{ 
+      this.ifelse = false; 
     }
-    
   }
 
   public Exp getCondition(){
@@ -44,18 +40,19 @@ public class ExpIf extends Exp {
 
   @Override
   public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException {
-    return v.visitExpIf(this, arg);
+    return v.visitSmplIf(this, arg);
   }
 
   @Override
   public String toString() {
     if(ifelse)
     {
-    	return "IF " +con.toString() +" THEN " +ifArg.toString() +" [ELSE " +elseArg.toString() +"]"; 
+      return "if " +con.toString() +" then " +ifArg.toString() +" [else " +elseArg.toString() +"]"; 
     }
     else
     { 
-    	return "IF " +con.toString() +" THEN " +ifArg.toString(); 
+      return "if " +con.toString() +" then " +ifArg.toString(); 
     }
   }
 }
+    

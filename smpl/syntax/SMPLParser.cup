@@ -75,14 +75,34 @@ non terminal StmtDefinition procDefn;
 non terminal ArrayList idList;
 non terminal ArrayList idListE;
 
-non terminal StmtLet letStmt;
+non terminal Statement letStmt;
+non terminal Statement pairStmt;
+non terminal Statement pairStmt;
+non terminal Statement cdr;
+non terminal Statement car;
+non terminal Statement case;
+non terminal Statement pairCheck;
+non terminal Statement lazyStmt;
+non terminal Statement printStmt;
+non terminal Statement printLnStmt;
+non terminal Statement callStmt;
+non terminal Statement read;
+non terminal Statement readint;
 non terminal ArrayList bindings;
 non terminal ArrayList bindingsAux;
 non terminal Binding binding;
 
 non terminal Exp valStmt;
 non terminal Exp expression;
+non terminal Exp logicor;
+non terminal Exp logicand;
+non terminal Exp logicnot;
+non terminal Exp relexp;
 non terminal Exp term;
+non terminal Exp bitexp;
+non terminal Exp arithexp;
+non terminal Exp bitnot;
+non terminal Exp power;
 non terminal Exp factor;
 non terminal empty;
 
@@ -106,7 +126,8 @@ stmt ::= definition:d SEMI {: RESULT = d; :} |
 	 pairStmt:ps {: RESULT = ps; :}
 	 callStmt:cs {: RESULT = cs; :}|
 	 lazyStmt:zs {: RESULT = zs; :}|
-	 ifStmt:is {: RESULT = is; :}|;
+	 ifStmt:is {: RESULT = is; :}|
+	 expression:e {:RESULT =e; :};
 
 valStmt ::= letStmt:l {: RESULT = l; :} |
 	    expression:e SEMI {: RESULT = new Statement(e); :};
@@ -141,11 +162,11 @@ lazyStmt::= LAZY LPAREN expression:e RPAREN{:
 		:};
 
 ifStmt ::= IF expression:ifExp THEN expression:thenExp ELSE expression:elseExp {:
-		 RESULT = new SmplIf(ifExp, thenExp, elseExp); :};
+		 RESULT = new StmtIf(ifExp, thenExp, elseExp); :};
 
-printStmt ::= PRINT LPAREN stmtExp:e RPAREN {: RESULT = new PrintStmt(e); :};
+printStmt ::= PRINT LPAREN stmtExp:e RPAREN {: RESULT = new StmtPrint(e); :};
 
-printlnStmt ::= PRINTLN LPAREN stmtExp:e RPAREN {: RESULT = new PrintLnStmt(e); :};
+printlnStmt ::= PRINTLN LPAREN stmtExp:e RPAREN {: RESULT = new StmtPrintLn(e); :};
 	   
 read ::= READ LPAREN RPAREN {:
 		RESULT = new ExpRead();

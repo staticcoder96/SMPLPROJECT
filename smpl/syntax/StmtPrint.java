@@ -3,7 +3,7 @@ package smpl.syntax;
 import smpl.semantics.Visitor;
 import smpl.sys.SmplException;
 
-public class StmtPrintLn extends Exp{
+public class StmtPrint extends Exp{
 
     Exp exp;
 
@@ -19,7 +19,7 @@ public class StmtPrintLn extends Exp{
     }
 
     @Override
-    public <S, T> T visit(SMPLVisitor<S, T> v, S arg) throws SMPLException{
+    public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException{
         return v.visitPrintStmt(this, arg);
     }
 

@@ -1,0 +1,26 @@
+def map proc(f, list)
+  /* return a new list, obtained
+     by applying f to each element
+     of list */
+
+  if list = #e
+     then #e
+     else pair(f(1st(list)),
+	       map(f, 2nd(list)));
+
+def testlst pair(1, pair(2, pair(3, pair(4, #e))));
+
+/* Exponentiation function in disguise */
+def f proc(n)
+  if n = 0
+  then 1
+  else if n % 2 = 0
+       then square(f(n/2))
+       else 2 * f(n - 1);
+
+def square proc(n) n * n;
+
+println("Should return list (2 4 8 16)");
+
+map(f, testlst);
+

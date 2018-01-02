@@ -2,6 +2,7 @@ package smpl.semantics;
 
 import smpl.sys.SmplException;
 import java.util.*;
+import smpl.values.*;
 
 /**
  * An instance of class <code>Environment</code> maintains a
@@ -14,7 +15,7 @@ import java.util.*;
 
 public class Environment {
 
-    HashMap<String, G> dictionary;       //current environment  
+    HashMap<String, SmplValue> dictionary;       //current environment  
     Environment parent = null;        // parent envornment
 
     
@@ -43,7 +44,7 @@ public class Environment {
 
 
     /* This does not extend the new environment. It adds to the current environment*/
-    public Environment(String[] ids, G[] values){
+    public Environment(String[] ids, SmplValue[] values){
         dictionary = new HashMap<>();
         for(int i=0; i<ids.length; i++){
             put(ids[i], values[i]);
@@ -61,7 +62,7 @@ public class Environment {
      * have the same length.
      * @param parent The parent of this environment 
      */
-    public Environment(String[] ids, G[] values, Environment<G> parent) {
+    public Environment(String[] ids, SmplValue[] values, Environment parent) {
     dictionary = new HashMap<>();
     parent = parent;
     for (int i = 0; i < ids.length; i++) {
@@ -73,7 +74,7 @@ public class Environment {
 
 
     /*The environment is not extended*/
-    public Environment(ArrayList<String> ids, ArrayList<G> values){
+    public Environment(ArrayList<String> ids, ArrayList<SmplValue> values){
         dictionary = new HashMap<>();
         for(int i=0; i<ids.size(); i++){
             put(ids.get(i), values.get(i));
@@ -89,7 +90,7 @@ public class Environment {
      * @param values The corresponding list of values to be bound
      * @param parent The environment being extended.
      */
-    public Environment(ArrayList<String> ids, ArrayList<G> values, Environment parent) {
+    public Environment(ArrayList<String> ids, ArrayList<SmplValue> values, Environment parent) {
         dictionary = new HashMap<>();
         parent = parent;
         for (int i = 0; i < ids.size(); i++) {
@@ -121,7 +122,7 @@ public class Environment {
      * @param id the name to be bound
      * @param value the value to which the name is bound.
      */
-    public void put(String id, G value) {
+    public void put(String id, SmplValue value) {
     dictionary.put(id, value);
     }
 
@@ -135,8 +136,8 @@ public class Environment {
      * this environment.
      * @exception SmplException if <code>id</code> is unbound
      */
-    public G get(String id) throws SmplException {
-    G result = dictionary.get(id);
+    public SmplValue get(String id) throws SmplException {
+    SmplValue result = dictionary.get(id);
     if (result == null)
         if (parent == null)
             throw new SmplException("Unbound variable " + id);

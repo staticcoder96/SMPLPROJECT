@@ -5,5 +5,8 @@ public enum SmplTypes {
     REAL,
     BOOLEAN,
     CHAR,
-    STRING;
+    STRING,
+    VECTOR,
+    PAIR,
+    PROCEDURE;
 }

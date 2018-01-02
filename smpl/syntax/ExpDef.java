@@ -28,6 +28,6 @@ public class ExpDef extends Exp{
 
 	@Override
 	public String toString(){
-		return "def " , var.toString(), exp.toString();
+		return "def " + var.toString() + exp.toString();
 	}
 }

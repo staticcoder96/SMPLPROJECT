@@ -1,0 +1,15 @@
+def repeated proc(f, n)
+  if n = 0
+  then proc(x) x
+  else proc(x) f(repeated(f, n - 1)(x));
+
+def g repeated(proc(n) n * n, 2);
+
+def h repeated(proc(n) n + 1, 2);
+
+println("Should print 625 and then return 7");
+
+println(g(5));  // should print 625
+
+h(5);  // should return 7
+

@@ -1,11 +1,10 @@
-/* Specification for Fractal tokens */
 
 // user customisations
 
-package fractal.syntax;
+package smpl.syntax;
 import java_cup.runtime.*;
-import fractal.sys.FractalException;
-import fractal.sys.FractalLexerException;
+import smpl.sys.SmplException;
+import smpl.sys.SmplLexerException;
 
 // JFlex directives
     
@@ -14,8 +13,8 @@ import fractal.sys.FractalLexerException;
 %cup
 %public
 
-%class FractalLexer
-%throws FractalException
+%class smplLexer
+%throws SmplException
 
 %type java_cup.runtime.Symbol
 
@@ -77,9 +76,10 @@ char = [^\\\n\"] | "\\". | {hex}{4}
 
 floatnum =  \d+\.|\d+\.\d+ | \.[0-9][0-9][0-9]+
 
-alpha = [a-zA-Z0-9?\\-+*!?#.]* | [_a-zA-Z?] 
+alpha = [a-zA-Z]
+symbols = ["?""\\""-""+""*""!""?""#""."]
 
-alphnum = {floatnum}|{alpha}
+alphnum = {floatnum}|{alpha}|{symbols}|{num}
 
 %%
 
@@ -142,7 +142,7 @@ alphnum = {floatnum}|{alpha}
     "}"         {return mkSymbol(sym.RCBRACE);}
    
 
-    """"        {return mkSymbol(sym.DQUOTES);}
+    \"\"        {return mkSymbol(sym.DQUOTES);}
     "''"        {return mkSymbol(sym.SQUOTES);}
     "#t"        {return mkSymbol(sym.TRUE,yytext());}
     "#f"        {return mkSymbol(sym.FALSE,yytext());}
@@ -212,7 +212,7 @@ alphnum = {floatnum}|{alpha}
 
     "{char}*" {
         //STRING
-        return mkSymbol(sym.STRING, yytext().substring(1,yytext().length()-1);
+        return mkSymbol(sym.STRING, yytext().substring(1,yytext().length()-1));
 
     }
 

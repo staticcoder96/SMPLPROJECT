@@ -1,0 +1,23 @@
+def vectorMap proc(f, v)
+  /* return a newly allocated vector
+     obtained by applying f to each
+     element of v. */
+
+  [: size(v): proc(i) f(v[i]) :]
+;
+def vectorAppend proc(v1, v2)
+  /* return a newly allocated vector
+     containing elements of v1 followed
+     by elements of v2 */
+
+  [: size(v1): proc(i) v1[i],
+     size(v2): proc(i) v2[i] :]
+;
+
+println("Should print [: 3, 6, 9, 12, 15 :]");
+
+println(vectorMap(proc(n) 3 * n, [: 1, 2, 3, 4, 5 :]));
+
+println("Should print [: 1, 2, 3, 4, -1, -2, -3, -4 :]");
+
+println(vectorAppend([: 1, 2, 3, 4 :], [: -1, -2, -3, -4 :]));

@@ -1,0 +1,396 @@
+
+// test a line comment
+println("*** Line comments ***");
+1 + // 2
+3 ;
+
+1 + /* 2 */ 2 ;
+println("*** End of line comments ***");
+
+// integers
+print("*** Integers Tests ***\n");
+print("10: "); println(10);
+print("#b101"); println(#b101);
+print("#x10ff"); println(#x10ff);
+print("*** End of Integers ***\n");
+
+// identifiers
+print("*** Identifiers Tests ***\n");
+def x 1;
+def x1 1 ;
+def x1y 1;
+def 1xy 1;
+def 11xy 1;
+print("*** End of Identifiers tests ***\n");
+
+// strings
+println("*** Strings test ***");
+print(substr("foo", 1, 3)); println(" Should be oo");
+"def";  // should not give error
+"hello world" ;  // ensures that spaces are allowed
+print("*** End of string tests ***\n");
+
+// arithExps
+print ("1 + 2 * 3 ="); println(1 + 2 * 3) ;
+print("1 + 2 + 3 ="); println(1 + 2 + 3);
+print("1 + 2 > 2 + 3 ="); println(1 + 2 > 2 + 3);
+
+// def tests
+println("*** def tests ***");
+println("def x 1 ...");
+def x 1 ;
+print("x = "); print(x) ; print("\n");
+
+println("def x 1 + 2 * 3 ...") ;
+def x 1 + 2 * 3 ;
+print("x = "); print(x); println(" Should be 7");
+
+println("def s <quote foo>") ;
+def s "foo" ;
+print("s = "); print(s); print("\n");
+println("*** End of def tests ***");
+
+// proc tests
+print("*** proc tests ***\n");
+proc(x) x + 1 ;
+proc(x) proc(n) x + n ;
+print(proc(x) x(x)) ; print("\n");
+print("*** End of proc tests ***\n");
+
+// call tests
+print ("*** procedure application tests ***\n");
+print ("Should print 3...\n");
+print((proc(n) n + 1)(2)); print("\n");
+print("Should print 81...\n");
+print((proc(f,x) (proc(m) f(f(m)))(x))(proc(n) n * n, 3)); print("\n");
+println("*** End of procedure application tests ***");
+
+println("*** Call expression ***");
+def f proc(y, z) pair(y, z);
+print("call(f, [1, 2]) = "); print(call(f, [1, 2]));
+println("Should be (1 . 2)"); 
+print("call(f, list(3, 4)) = "); print(call(f, list(3, 4)));
+println("Should be (3 . 4)"); 
+
+def g proc(x) list(x - 1, 1);
+print("call(f, g(4)) = "); print(call(f, g(4)));
+println("Should be (3 . 1)");
+
+println("*** End of Call expression ***");
+
+// let tests
+print("*** let tests ***\n");
+print(let(x = 1) x + 1) ; print("\n");
+def a 0;
+print(let(f = proc(n) n * n)
+	let (a = f(5))
+	   a) ;
+print("\n");
+def a 3; def b 7; def f proc(n) n + 1;
+let(b = 5,
+    f = (proc(n) a * n),
+    a = f(b)) {
+  print("a= "); print(a); 
+  print("Should be 8, not 3, 15, 21 or 6"); print("\n");
+  print("b= "); print(b); println("Should be 5 not 7");
+  print("\n");
+  print("f(b) = "); print(f(b)); print (" should be 15, not 6"); print("\n");
+  };
+
+print("should be 5 not 4...");
+def f proc(n) n + 1 ;
+print(
+	let(f = proc(n) if n < 1 then 1 else 1 + f(n - 2))
+	  f(5)
+) ;
+print("\n");
+print("*** end of let tests ***\n");
+
+// def within proc
+println("*** Def within proc tests ***");
+def a 5;
+def f proc(n) {
+    def a 3;
+    def g proc(x) {
+	println("<now in g>:");
+	print("x = "); println(x);
+	print("n = "); println(n);
+	print("x + a * n = ");
+	print(x + a * n); print("\t");
+	print("Should be 3n + x"); print("\n");
+	println("<leaving g>...");
+	};
+    g(1);
+}
+print("f(2) = "); print(f(2)); print("Should be 7"); print("\n");
+print("a = "); print(a); print("Should be 5"); print("\n");
+println("*** End of Internal Def Test ***");
+
+// if tests
+println("*** If Tests ***");
+println("Should print: 1, 0, 1");
+println(if #t then 1 else 0) ;
+println(if #f then 1 else 0) ;
+println(if 1 < 2 then 1 else 0);
+print("*** End of If tests ***\n");
+
+// case expression
+println("*** Case Expression Tests ***");
+def x 3;
+def f proc(x)
+  case {
+     x < 0: print ("x is negative\n"),
+     x = 0: print ("x is zero\n"),
+     else: print ("x is positive\n")
+  };
+
+print("should print x is negative");
+print(f(-1));
+println("*** End of Case Tests ***");
+
+// assignment tests
+print("*** Assignment Tests ***\n");
+def x 1 ; print("after def: x = "); print(x) ; println ("... Should be 1");
+x := 3 ; 
+print("after assgn: x = "); print(x); println("... Should be 3");
+def f proc(n) proc(x) n + x ;
+def g f(2);
+print("Should print 5...");
+print(g(3)) ; print("\n");
+f := f(g(3)) ;
+print("Should print 8...");
+print(f(3)) ; print("\n");
+
+println("Non-local assignment test...");
+print("before: x = "); print(x); println("... Should still be 3");
+
+def h proc(n) { x := n; n };
+println("Changing x to "); print(h(x + 1));
+print("after: x = "); print(x); println("... Should be 1 more");
+
+println("Internal def assignment test...");
+def a 3;
+def assgn_test proc(n) {
+   def a 7;
+   print("a ="); print(a); print("Should be 7 not 3"); print("\n");
+   a := n;
+   print("a ="); print(a); 
+   print(" Should be "); print(n); print(" not 7 or 3"); print("\n");
+   }
+
+print("a ="); print(a); print("Should be 3"); print("\n");
+assgn_test(5);
+print("a ="); print(a); print("Should be 3"); print("\n");
+
+print("*** End of Assignment tests ***\n");
+
+// vectors
+print("*** Vector tests ***"); print("\n");
+print("Should print [:1, 2, 3:] - ");
+print([: 1 , 2 , 3 :]) ; print("\n");
+
+print("Should print [:3, 5, 8:] - ");
+print([: 1 + 2 , 2 + 3 , 3 + 5 :]) ; print("\n");
+
+print("Should print [:3, 12, 5:] - ");
+print([: 1 + 2 , 3 * 4 , 12 - 7 :]) ; print("\n");
+
+print("Should print [:0, 2, 4, 6, 8:] - ");
+print([: 5 : proc(n) (2 * n) :]) ; print("\n");
+
+print("Should print [:0, 1, 2, 0, 1, 4, 9:] - ");
+print([: 3 : proc(n) n , 4 : proc(n) n * n :]) ; print("\n");
+
+print("Should print [:1, 2, 3, 4, 5, 6, 7:] - ");
+print([: 1 , 3 : proc(n) n + 2 , 5 , 6 , 7 :]) ; print("\n");
+print("*** End of Vector tests ***"); print("\n");
+
+// characters
+println("*** Character Tests ***");
+print("char a = "); print(#ca); print("\n");
+print("char nl = "); print(#c\n); print("\n");
+print("char tab = "); print(#c\t); print("\n");
+println("*** End of Character Tests ***");
+
+// nestable comments
+println("*** Nestable Comments ***");
+println("Should print 2:");
+print( 1 /* 
+	   + 1 + /* 1 + 2 */
+	   + 4 */
+	   + 1); print("\n");
+println("*** End of Nestable Comments ***");
+
+
+// functions are values
+println("*** First class Procedures ***");
+def map proc(f, list)
+/* return a new list, obtained
+   by applying f to each element
+   of list */
+
+  if list = #e then #e else pair(f(car(list)), map(f, cdr(list)));
+
+println("Should print [0 1 4 9 16]");
+
+println(map(proc(n) n * n, list(0,1,2,3,4)));
+
+def iter proc(f, m, n)
+  if  m > n
+  then 0
+  else f(m) + iter(f, m + 1, n);
+
+println("Should print 55...");
+println(iter(proc(n) n, 1, 10));
+
+println("Should print 110...");
+println(iter(proc(n) 2 * n, 1, 10));
+
+println("Should print 385...");
+println(iter(proc(n) n * n, 1, 10));
+println("*** End of First Class Procedure Tests ***");
+
+// variable arity procedures
+println("*** Variable Arity Procedures ***");
+def f proc(y, z) pair(y, z);
+def g proc(y . z) [y, z];
+print("f(1, 2) = "); print(call(f, [1, 2])); println("Should be (1 . 2)"); 
+print("g(1, 2, 3, 4) = "); print(g(1, 2, 3, 4));
+println("Should be [1, [2, 3, 4]]");
+print("call(g, [1, 2, 3]) = "); print(call(g, [1, 2, 3]));
+println("Should be [1, [2, 3]]");
+
+def double proc(x) 2 * x;
+print("call(g, map(double, [1, 2, 3])) = ");
+print(call(g, map(double, [1, 2, 3])));
+println("Should be [2, [4, 6]]");
+println("*** End of Variable Arity Procedures ***");
+
+/*
+print("Thread test...")
+def thread-test proc() {
+  def flag #f;
+  def loop proc(n) 
+	if flag
+	then n
+	else { wait(100 * n); loop(n + 1); };
+
+  def wait proc(v)
+	if v < 0 then 0 else wait(v - 1);
+
+  def handle fork(loop(0));
+  print("Handle = "); println(handle);
+  println("Press any key to continue");
+  read();
+  flag := #t;
+  print(join(handle));
+}
+*/
+
+println("*** Multivalue test ... ***")
+def xt 5;
+def yt 7;
+def multi proc(u, v) (u/v, u%v);
+print("before: xt, yt = ("); print(xt); print(", "); print(yt); print(")");
+xt, yt := multi(yt, xt);
+print("after: xt, yt = ("); print(xt); print(", "); print(yt); print(")");
+println("*** End of Multivalue test ***");
+
+println("*** Mutual recursion test ***");
+def isEven proc(n) {
+   def f proc(x) if x = 0 then #t else g(x - 1);
+   def g proc(x) if x = 0 then #f else f(x - 1);
+   f(n);
+}
+
+print("7 is even. -- "); println(isEven(7));
+print("10 is even. -- "); println(isEven(10));
+println("*** End of Mutual Recursion Test ***");
+
+/*
+println("Optional typing test");
+println("def any x 13 ...");
+def any x 13;
+print("x = "); println(x);
+println("x := <quote foo> ...");
+x := "foo";
+print("x = "); println(x);
+println("def int x 13 ...");
+def int x 12;
+print("x = "); println(x);
+println("x := <quote foo> ...");
+x := "foo";
+print("x = "); println(x);
+*/
+
+println("*** Graphics tests ***");
+println("** Point Operation Tests **");
+def p pt(2, 4);
+def q pt(2, -1);
+print("Point p = "); println(p);
+print("Point q = "); println(q);
+print("p + q = "); print(p + q); println("[Should be (4, 3)]");
+print("p - q = "); print(p - q); println("[Should be (0, 5)]");
+print("p * q = "); print(p * q); println("[Should be 0]");
+print("3 * p = "); print(3 * p); println("[Should be (6, 12)]");
+print("-3 * p = "); print(-3 * p); println("[Should be (-6, -12)]");
+print("p / 2 = "); print(p / 2); println("[Should be (1, 2)]");
+print("eqv?(p, (2,4)) = "); print(eqv?(p, pt(2,4))); 
+println("[Should be true]");
+
+println("** Class Tests: **");
+println("Defining Shape class...");
+def shape class() {
+   export (perimeter, area);
+   def name "shape";
+   def perimeter method() 0;
+   def area method() 0;
+   def show method() print("I am a "); println(name);
+}
+
+println("Shape class defined");
+
+println("Defining Rectangle class...");
+def rectangle class(shape) {
+   export (perimeter, area);
+   constr(width, height) name := "rectangle";
+   def perimeter method() 2 * (width + height);
+   def area method() width * height;
+}
+println("Rectangle class defined.");
+
+println("Defining Circle class...");
+def circle class(shape) {
+   def pi 3.1415;
+   export (perimeter, area);
+   constr(radius) name := "circle";
+   def perimeter method() 2 * pi * radius;
+   def area method() pi * radius * radius;
+}
+println("Circle class defined.");
+
+println("Defining Square class...");
+def square class(rectangle) {
+   export (perimeter, area);
+   constr(side) {
+     name := "square";
+     width := side; 
+     height := side;
+   }
+}
+println("Square class defined.");
+
+println("** Object Tests **");
+
+println("Defining a rectangle, r ...");
+def r new rectangle(3, 4);
+println("Rectangle defined");
+print("r.show() prints "); println(r.show());
+println("It should have printed: I am a rectangle");
+print("r.perimeter() prints "); println(r.perimeter());
+println("It should have printed: 14");
+print("r.area() prints "); println(r.area());
+println("It should have printed: 12");
+
+
+

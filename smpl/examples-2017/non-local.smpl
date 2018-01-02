@@ -1,0 +1,8 @@
+def f proc(n)
+  proc(m)
+   m + n;
+
+def g f(3);
+
+g(2);  // should return 5
+

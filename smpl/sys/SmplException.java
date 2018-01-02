@@ -1,11 +1,11 @@
 package smpl.sys;
 
-import smpl.syntax.SMPLExp;
+import smpl.syntax.Exp;
 
 public class SmplException extends Exception {
     private static final long serialVersionUID = 1L;
     
-    private SMPLExp source;
+    private Exp source;
     
     public SmplException() {
         super();
@@ -19,21 +19,21 @@ public class SmplException extends Exception {
         super(text, cause);
     }
     
-    public SmplException(SMPLExp exp, String text) {
+    public SmplException(Exp exp, String text) {
         super(text);
         source = exp;
     }
     
-    public SmplException(SMPLExp exp, String text, Throwable cause) {
+    public SmplException(Exp exp, String text, Throwable cause) {
         super(text, cause);
         source = exp;
     }
     
-    public SMPLExp getSource() {
+    public Exp getSource() {
         return source;
     }
     
-    protected void setSource(SMPLExp src) {
+    protected void setSource(Exp src) {
         source = src;
     }
 }

@@ -1,0 +1,22 @@
+/*
+  
+(define (Y g)
+  (g ((lambda (x) (lambda (f) (g (x x))))
+      (lambda (x) (lambda (f) (g (x x)))))))
+
+(let ((g (lambda (f)
+	   (lambda (n)
+	     (if (= n 1)
+		 1
+		 (* n ((f f) (- n 1))))))))
+  ((Y g) 5))
+  ;Value: 120
+
+ */
+
+let (y = proc(g) g( (proc(x) proc(f) g(x(x)))(proc(x) proc(f) g(x(x))) ))
+ let (fact = y(proc(f) proc(n) if n = 1 then 1 else n * (f(f))(n - 1)) )
+{
+  print fact;
+  fact(5);
+}
