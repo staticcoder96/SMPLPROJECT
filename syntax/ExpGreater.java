@@ -1,13 +1,8 @@
-package smpl.syntax;
-
-import smpl.semantics.Visitor;
-import smpl.sys.SmplException;
-
-public class ExpGt extends Exp {
+public class ExpGreater extends Exp{
 
   Exp exp1, exp2;
 
-  public ExpGt(Exp e1, Exp e2) {
+  public ExpGreater(Exp e1, Exp e2) {
     exp1 = e1;
     exp2 = e2;
   }
@@ -16,7 +11,7 @@ public class ExpGt extends Exp {
     return exp1;
   }
 
-  public Exp getExpR() {
+  public Exp getExpR(){
     return exp2;
   }
 
