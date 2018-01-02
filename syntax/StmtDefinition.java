@@ -1,21 +1,24 @@
-public class StmtDefinition extends Exp {
+public class StmtDefinition extends Exp{
 
 	ArrayList<String> vars;
 	ArrayList<Exp> exps;
-
 	ExpVectorRef vr;
 	Exp r;
 
-	public StmtDefinition(ArrayList<String> ids, ArrayList<Exp> e) {
-		vars = ids;
+	public StmtDefinition(ArrayList<String> v, ArrayList<Exp> e){
+		vars = v;
 		exps = e;
 	}
 
-	public StmtDefinition(ExpVectorRef vr, Exp r) {
+	public StmtDefinition(ExpVectorRef vr, Exp r){
 		this.vr = vr;
 		this.r = r;
 	}
 
+  public Exp getExp(){
+		return r;
+	}
+  
 	public ArrayList<String> getVars(){
 		return vars;
 	}
@@ -24,12 +27,8 @@ public class StmtDefinition extends Exp {
 		return exps;
 	}
 
-	public ExpVectorRef getVectorReference(){
+	public ExpVectorRef getVectorRef(){
 		return vr;
-	}
-
-	public Exp getExp(){
-		return r;
 	}
 
 	@Override
@@ -40,8 +39,11 @@ public class StmtDefinition extends Exp {
 	@Override
 	public String toString() {
 		if(vr != null)
-			return vr.toString() := r.toString();
-		else
-			return vars.toString() := exps.toString();
+			vr.toString() = r.toString();
+      return vr.toString();
+  }
+		else{
+			vars.toString() =exps.toString();
+      return vars.toString()
 	}
 }
