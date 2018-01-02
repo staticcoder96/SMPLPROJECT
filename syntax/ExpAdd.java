@@ -1,8 +1,3 @@
-package MySMPL.syntax;
-
-import MySMPL.semantics.Visitor;
-import MySMPL.sys.SmplException;
-
 public class ExpAdd extends Exp {
 
   Exp exp1, exp2;
