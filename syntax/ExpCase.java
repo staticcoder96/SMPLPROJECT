@@ -1,9 +1,3 @@
-package MySMPL.syntax;
-
-import MySMPL.semantics.Visitor;
-import MySMPL.sys.SmplException;
-import java.util.*;
-
 public class ExpCase extends Exp {
 
   ArrayList<ExpPair> list;
@@ -12,7 +6,7 @@ public class ExpCase extends Exp {
     list = new ArrayList();
   }
 
-  public ExpCase(ArrayList<ExpPair> list) {
+  public ExpCase(ArrayList<ExpPair> list){
     this.list = list;
   }
 
@@ -21,7 +15,7 @@ public class ExpCase extends Exp {
   }
 
   @Override
-  public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException {
+  public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException{
     return v.visitExpCase(this, arg);
   }
 
