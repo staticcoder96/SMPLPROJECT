@@ -1,14 +1,9 @@
-package smpl.syntax;
-
-import smpl.semantics.Visitor;
-import smpl.sys.SmplException;
-
 public class ExpVar extends Exp {
 
 	String var;
 
-	public ExpVar(String id){
-		var = id;
+	public ExpVar(String v){
+		var = v;
 	}
 
 	public String getVar(){
