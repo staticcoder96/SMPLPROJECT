@@ -1,3 +1,8 @@
+package smpl.syntax;
+
+import smpl.semantics.Visitor;
+import smpl.sys.FractalException;
+
 public class ExpAdd extends Exp {
 
   Exp exp1, exp2;
