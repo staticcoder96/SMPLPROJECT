@@ -1,13 +1,8 @@
-package MySMPL.syntax;
-
-import MySMPL.semantics.Visitor;
-import MySMPL.sys.SmplException;
-
-public class ExpPair extends Exp {
+public class ExpPair extends Exp{
 
   Exp exp1, exp2;
 
-  public ExpPair(Exp e1, Exp e2) {
+  public ExpPair(Exp e1, Exp e2){
     exp1 = e1;
     exp2 = e2;
   }
@@ -16,7 +11,7 @@ public class ExpPair extends Exp {
     return exp1;
   }
 
-  public Exp getExpR() {
+  public Exp getExpR(){
     return exp2;
   }
 
@@ -27,7 +22,7 @@ public class ExpPair extends Exp {
 
   @Override
   public String toString() {
-    return "(" + exp1.toString() + " . " + exp2.toString() + ")";
+    return "(" + exp1.toString() + "." + exp2.toString() + ")";
   }
 }
 
