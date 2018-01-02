@@ -1,8 +1,6 @@
-package fractal.values;
+package smpl.values;
 
-public enum FractalTypes {
+public enum SmplTypes {
     INTEGER,
-	REAL,
-	FRACTAL,
-	FRAC_APPROX;
+    REAL;
 }
