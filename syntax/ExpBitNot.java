@@ -1,8 +1,3 @@
-package MySMPL.syntax;
-
-import MySMPL.sys.SMPLException;
-
-
 public class ExpBitNot extends Exp {
 
     Exp exp;
