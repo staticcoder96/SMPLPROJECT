@@ -1,3 +1,8 @@
+package smpl.syntax;
+
+import smpl.semantics.Visitor;
+import smpl.sys.FractalException;
+
 public class ExpBitNot extends Exp {
 
     Exp exp;
@@ -17,6 +22,6 @@ public class ExpBitNot extends Exp {
 
     @Override
     public String toString() {
-        return "~" + exp.toString();
+        return "~ " + exp.toString();
     }
 }
