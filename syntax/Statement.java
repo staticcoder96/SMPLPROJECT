@@ -1,16 +1,16 @@
-public class Statement extends Exp {
+public class Statement extends Exp{
 
     Exp exp;
 
-    public Statement() {
+    public Statement(){
 	super();
     }
 
-    public Statement(Exp e) {
+    public Statement(Exp e){
 	exp = e;
     }
 
-    public Exp getExp() {
+    public Exp getExp(){
 	return exp;
     }
 
