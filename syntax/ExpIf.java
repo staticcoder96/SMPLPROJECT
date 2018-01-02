@@ -9,15 +9,12 @@ public class ExpIf extends Exp {
     this.ifArg = ifArg;
     this.elseArg = elseArg;
 
-    if(elseArg != null)
-    {
+    if(elseArg != null){
     	this.ifelse= true;
     }
-    else
-    { 
+    else{ 
     	this.ifelse = false; 
     }
-    
   }
 
   public Exp getCondition(){
