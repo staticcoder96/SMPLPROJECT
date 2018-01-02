@@ -2,6 +2,14 @@ public class ExpRead extends Exp{
 
   public ExpRead(){
   }
+  
+  public ExpRead(Exp exp){
+        this.exp = exp;
+  }
+
+    public Exp getExp(){
+        return exp;
+    }
 
   @Override
   public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException{
@@ -10,6 +18,6 @@ public class ExpRead extends Exp{
 
   @Override
   public String toString(){
-    return "read()";
+    return "read(" + exp.toString +")";
   }
 }
