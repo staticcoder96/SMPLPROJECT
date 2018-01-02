@@ -19,7 +19,8 @@ public class ExpEqual extends Exp{
   public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException{
     return v.visitExpEqual(this, arg);
   }
-
+  
+  @Override
   public String toString(){
     return "Equal?(" + exp1.toString() + ", " + exp2.toString() + ")";
   }
