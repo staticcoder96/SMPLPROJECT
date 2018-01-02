@@ -1,6 +1,6 @@
 public class StmtPrintLn extends Exp {
 
-    SMPLExp smplExp;
+    Exp exp;
 
     public StmtPrintLn() {
     }
@@ -10,7 +10,7 @@ public class StmtPrintLn extends Exp {
     }
 
     public Exp getExp() {
-        return Exp;
+        return exp;
     }
 
     @Override
@@ -20,6 +20,6 @@ public class StmtPrintLn extends Exp {
 
     @Override
     public String toString() {
-        return "print: " + Exp.toString();
+        return "println " + exp.toString();
     }
 }
