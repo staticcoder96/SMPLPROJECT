@@ -33,13 +33,12 @@ public class StmtSequence extends Exp {
 
     @Override
     public String toString() {
-	   Iterator iter = seq.iterator();
+	Iterator iter = seq.iterator();
 
     	String result = "";
     	while (iter.hasNext()) {
     	    result = result + iter.next().toString() + "\n";
     	}
-
     	return result;
     }
 
