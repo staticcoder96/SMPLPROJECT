@@ -20,6 +20,6 @@ public class StmtPrintLn extends Exp{
 
     @Override
     public String toString(){
-        return "print: " + Exp.toString();
+        return "print " + exp.toString();
     }
 }
