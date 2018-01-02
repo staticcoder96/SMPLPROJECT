@@ -1,13 +1,8 @@
-package MySMPL.syntax;
-
-import MySMPL.semantics.Visitor;
-import MySMPL.sys.SmplException;
-
-public class ExpPairCheck extends Exp {
+public class ExpPairCheck extends Exp{
 
   Exp exp;
 
-  public ExpPairCheck(Exp e) {
+  public ExpPairCheck(Exp e){
     exp = e;
   }
 
@@ -17,13 +12,13 @@ public class ExpPairCheck extends Exp {
 
 
   @Override
-  public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException {
+  public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException{
     return v.visitExpPairCheck(this, arg);
   }
 
   @Override
-  public String toString() {
-    return "Pair?: " + exp.toString();
+  public String toString(){
+    return "pair?: " + exp.toString();
   }
 }
 
