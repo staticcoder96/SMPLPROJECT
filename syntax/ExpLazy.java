@@ -1,10 +1,4 @@
-package smpl.syntax;
-
-import smpl.semantics.Visitor;
-import smpl.sys.SmplException;
-
-
-public class ExpLazy extends Exp {
+public class ExpLazy extends Exp{
 
   Exp exp;
  
@@ -21,12 +15,12 @@ public class ExpLazy extends Exp {
   }
 
   @Override
-  public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException {
+  public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException{
     return v.visitExpLazy(this, arg);
   }
 
   @Override
-  public String toString() {
+  public String toString(){
     return "Lazy: " +exp.toString();
   }
 }
