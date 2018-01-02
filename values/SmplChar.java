@@ -8,6 +8,7 @@ public class SmplChar extends SmplValue{
 	char val;
 
 	public SmplChar(char v){
+		super(SmplTypes.INTEGER);
 		val = v;
 	}
 
