@@ -1,12 +1,7 @@
-package MySMPL.syntax;
+public class SmplProgram extends Exp{
+    StmtSeq seq;
 
-import MySMPL.semantics.Visitor;
-import MySMPL.sys.SmplException;
-
-public class SmplProgram extends Exp {
-    StmtSequence seq;
-
-    public SmplProgram(StmtSequence s) {
+    public SmplProgram(StmtSeq s){
 	   seq = s;
     }
 
@@ -15,11 +10,11 @@ public class SmplProgram extends Exp {
     }
 
     @Override
-    public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException {
+    public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException{
         return v.visitSmplProgram(this, arg);
     }
 
-    public String toString() {
+    public String toString(){
 	   return seq.toString();
     }
 }
