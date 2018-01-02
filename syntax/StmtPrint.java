@@ -1,7 +1,13 @@
+package smpl.syntax;
+
+import smpl.semantics.Visitor;
+import smpl.syntax.Exp;
+import smpl.sys.SmplException;
+
 public class StmtPrint extends Exp {
 
 	Exp exp;
-	char esc;
+	char terminator;
 
 	public StmtPrint(Exp e){
 		this(e, '\0');
@@ -16,8 +22,8 @@ public class StmtPrint extends Exp {
 		return exp;
 	}
 
-	public char getEscChar(){
-		return esc;
+	public char getTerminatingCharacter(){
+		return terminator;
 	}
 
 	@Override
@@ -27,6 +33,6 @@ public class StmtPrint extends Exp {
 
 	@Override
 	public String toString() {
-		return exp.toString() + esc;
+		return exp.toString() + terminator;
 	}
 }
