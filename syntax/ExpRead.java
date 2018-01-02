@@ -1,16 +1,15 @@
-public class ExpRead extends Exp {
+public class ExpRead extends Exp{
 
-  public ExpRead() {
-   
+  public ExpRead(){
   }
 
   @Override
-  public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException {
+  public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException{
     return v.visitExpRead(this, arg);
   }
 
   @Override
-  public String toString() {
+  public String toString(){
     return "read()";
   }
 }
