@@ -1,68 +1,48 @@
-package smpl.syntax;
+public class StmtCase extends Statement{
 
-import smpl.semantics.Visitor;
-import smpl.sys.SmplException;
-import java.util.*;
-import smpl.syntax.Exp;
-import smpl.syntax.Option;
-
-public class StmtCase extends Statement  {
-
-  ArrayList<Option> options;
+  ArrayList<Options> options;
   ArrayList<Exp> pred;
-  ArrayList<Exp> cons;
+  ArrayList<Exp> con;
   Exp exp;
-  Boolean form;
+  Boolean ifelse;
 
-
-  public StmtCase(Exp e) {
+  public StmtCase(Exp e){
     exp = e;
     form = true;
   }
   
-  public StmtCase(ArrayList<Option> o) {
-    options = o;
-
-    for(Option i : o)
+  public StmtCase(Options lst){
+    pred.add(lst.getPred());
+    con.add(lst.getCon());
+    ifelse= false;
+  }
+  
+  public StmtCase(ArrayList<Options> lst){
+    options=lst;
+    for(Options i:lst)
     {
       pred.add(i.getPred());
-      cons.add(i.getCon());
+      con.add(i.getCon());
     }
-    System.out.println("test1");
-    form = false;
+    ifelse= false;
   }
-
-  public StmtCase(Option o) {
-
-    pred.add(o.getPred());
-    cons.add(o.getCon());
-    form = false;
-    System.out.println("test");
-  }
-
-  
 
   public ArrayList<Option> getOptions(){
     return options;
   }
 
-  public ArrayList<Exp> getPredicate(){
+  public ArrayList<Exp> getPred(){
     return pred;
   }
 
-  public ArrayList<Exp> getConsequent(){
+  public ArrayList<Exp> getCon(){
     return cons;
   }
 
   public Exp getExp(){
     return exp;
   }
-
-  public Boolean getForm(){
-    return form; 
-  }
   
-
   @Override
   public <S, T> T visit(Visitor<S, T> v, S arg) throws SmplException {
     return v.visitStmtCase(this, arg);
@@ -70,10 +50,10 @@ public class StmtCase extends Statement  {
 
   @Override
   public String toString() {
-    if(form)
+    if(ifelse)
     {
-      return "ELSE :" +exp.toString();
+      return "ELSE: " +exp.toString();
     }
-    else{return "case{\n[" + options.toString() + "] \n}";}
+    else{return "case{ \t [" + options.toString() + "] \t}";}
   }
 }
