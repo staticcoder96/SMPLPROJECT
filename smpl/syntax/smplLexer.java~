@@ -6,7 +6,6 @@
 package smpl.syntax;
 import java_cup.runtime.*;
 import smpl.sys.SmplException;
-import smpl.sys.SmplLexerException;
 
 // JFlex directives
     
@@ -1080,7 +1079,7 @@ public class smplLexer implements java_cup.runtime.Scanner {
             }
           case 105: break;
           case 35: 
-            { return mkSymbol(sym.GREATERQUAL);
+            { return mkSymbol(sym.GREATEREQUAL);
             }
           case 106: break;
           case 36: 

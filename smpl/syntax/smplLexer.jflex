@@ -1,3 +1,4 @@
+/* Specification for smpl tokens */
 
 // user customisations
 
@@ -12,13 +13,13 @@ import smpl.sys.SmplException;
 %cup
 %public
 
-%class smplLexer
+%class SmplLexer
 %throws SmplException
 
 %type java_cup.runtime.Symbol
 
 %eofval{
-	return new Symbol(sym.EOF);
+    return new Symbol(sym.EOF);
 %eofval}
 
 %eofclose false
@@ -37,19 +38,19 @@ import smpl.sys.SmplException;
     }
 
     public int getChar() {
-	return yychar + 1;
+    return yychar + 1;
     }
 
     public int getColumn() {
-    	return yycolumn + 1;
+        return yycolumn + 1;
     }
 
     public int getLine() {
-	return yyline + 1;
+    return yyline + 1;
     }
 
     public String getText() {
-	return yytext();
+    return yytext();
     }
 %}
 
@@ -76,16 +77,17 @@ char = [^\\\n\"] | "\\". | {hex}{4}
 floatnum =  \d+\.|\d+\.\d+ | \.[0-9][0-9][0-9]+
 
 alpha = [a-zA-Z]
-symbols = ["?""\\""-""+""*""!""?""#""."]
 
-alphnum = {floatnum}|{alpha}|{symbols}|{num}
+symbols = ["?" "\\" "-" "+" "*" "!" "#" "."]
+
+alphnum = {floatnum}|{alpha}
 
 %%
 
-<YYINITIAL>	{nl}	{
-			 //skip newline
+<YYINITIAL> {nl}    {
+             //skip newline
              yychar = 0;
-			}
+            }
 
 <YYINITIAL> {comment}  {
              // skip line comments
@@ -96,9 +98,9 @@ alphnum = {floatnum}|{alpha}|{symbols}|{num}
             }
 
 
-<YYINITIAL>	{ws}	{
-			 // skip whitespace
-			}
+<YYINITIAL> {ws}    {
+             // skip whitespace
+            }
 
 
 
@@ -130,13 +132,13 @@ alphnum = {floatnum}|{alpha}|{symbols}|{num}
 
     
 
-    "("			{return mkSymbol(sym.LPAREN);}
-    ")"			{return mkSymbol(sym.RPAREN);}
+    "("         {return mkSymbol(sym.LPAREN);}
+    ")"         {return mkSymbol(sym.RPAREN);}
     "["         {return mkSymbol(sym.LBRACE);}
     "]"         {return mkSymbol(sym.RBRACE);}
     ","         {return mkSymbol(sym.COMMA);}
     ":"         {return mkSymbol(sym.COLON);}
-    ";"         {return mkSymbol(sym.SEMICOLON);}
+    ";"         {return mkSymbol(sym.SEMI);}
     "{"         {return mkSymbol(sym.LCBRACE);}
     "}"         {return mkSymbol(sym.RCBRACE);}
    
@@ -185,11 +187,11 @@ alphnum = {floatnum}|{alpha}|{symbols}|{num}
 
 
 
-    {sign}?{floatnum}+ 		{
-			 // REAL
-	       		 return mkSymbol(sym.REAL, 
-			 	         new Double(yytext()));
-	       		}
+    {sign}?{floatnum}+      {
+             // REAL
+                 return mkSymbol(sym.REAL, 
+                         new Double(yytext()));
+                }
 
     {sign}?{binary}+ {
         //BINARY
@@ -216,12 +218,12 @@ alphnum = {floatnum}|{alpha}|{symbols}|{num}
     }
 
     {alpha}{alphnum}*   {
-    		      	 // IDENTIFIERS
-	       		 return mkSymbol(sym.ID, yytext());
-	       		}
+                     // IDENTIFIERS
+                 return mkSymbol(sym.ID, yytext());
+                }
 
-    .			{ // Unknown token (leave this in the last position)
-    			  throw new FractalLexerException(yytext(), getLine(),
-							  getColumn());
-    			}
+    .           { // Unknown token (leave this in the last position)
+                  throw new SmplException(yytext(), getLine(),
+                              getColumn());
+                }
 }

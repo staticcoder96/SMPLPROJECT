@@ -8,5 +8,6 @@ public enum SmplTypes {
     STRING,
     VECTOR,
     PAIR,
-    PROCEDURE;
+    PROCEDURE,
+    LIST;
 }

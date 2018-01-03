@@ -3,6 +3,7 @@ package smpl.values;
 import java.util.*;
 import smpl.sys.SmplException;
 import smpl.sys.SmplTypeException;
+import smpl.syntax.*;
 
 public class SmplValue {
     public static final SmplValue NO_VALUE = null;
@@ -30,8 +31,12 @@ public class SmplValue {
         return new SmplString(val);
     }
 
-    public static SmplValue makeList(ArrayList<?> val) {
-        return new SmplList(val);
+    public static SmplValue makeList(SmplValue val, SmplList next) {
+        return new SmplList(val,next);
+    }
+
+    public static SmplValue makePair(SmplValue val1, SmplValue val2) {
+        return new SmplPair(val1, val2);
     }
 
     public SmplValue(SmplTypes type) {
@@ -80,6 +85,22 @@ public class SmplValue {
         throw new SmplTypeException(SmplTypes.REAL, type);
     }
     
+    public boolean boolValue() throws SmplException {
+        throw new SmplTypeException(SmplTypes.BOOLEAN, type);
+    }
+
+    /*public static ExpList makeList(SmplValue val1, SmplValue val2) {
+        return new ExpList(val1, val2);
+    }
+
+    public static ExpList makeList(ArrayList<?> v) {
+        if(v.size() > 0){
+            return new ExpList(v.remove(0), makeList(v));
+        } else {
+            return new ExpEmptyList();
+        }
+
+    } */
     /**
      *
      * @return <code>true</code> if this value represents either an (exact) 

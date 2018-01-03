@@ -8,15 +8,10 @@ public class SmplChar extends SmplValue{
 	char val;
 
 	public SmplChar(char v){
-		super(SmplTypes.INTEGER);
+		super(SmplTypes.CHAR);
 		val = v;
 	}
 
-	public SmplChar(int v){
-		val = (char) v;
-	}
-
-	@Override
 	public SmplTypes getType(){
 		return SmplTypes.CHAR;
 	}

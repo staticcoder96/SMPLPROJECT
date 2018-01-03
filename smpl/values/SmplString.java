@@ -18,8 +18,8 @@ public class SmplString extends SmplValue {
 	}
 
 	@Override
-	public SmplValue add(SmplValue arg) throws SmplException {
-		return val + arg.SmplValue();
+	public SmplValue add(SmplValue arg) throws  SmplException {
+		return val + makeStr(arg);
 	}
 
 	@Override
