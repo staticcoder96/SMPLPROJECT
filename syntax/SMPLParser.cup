@@ -44,20 +44,20 @@ scan with {:
 /* Terminals (tokens returned by the scanner). */
 
 // special symbols
-terminal LPAREN, RPAREN, LBRACE, RBRACE, LCBRACE, RCBRACE, COMMA, COLON, SEMICOLON, PERIOD;
+terminal LPAREN, RPAREN, LBRACE, RBRACE, LCBRACE, RCBRACE, COMMA, COLON, SEMI, PERIOD;
 
 // arithmetic operators
 terminal PLUS, MINUS, MUL, DIV, MOD, POW, ASSIGN;
 
 terminal BAND, BOR, BNOT;
 
-terminal LNOT, LAND, LOR;
+terminal not, and, or;
 
 //comparators
 terminal EQUAL, GREATERTHAN, LESSTHAN, LESSEQUAL, GREATEREQUAL, NOTEQUAL;
 
 /* Keywords */
-terminal PAIR, PAIRCHECK, CAR, CDR, PRINT, PRINTLN, READ, READINT, LIST, PROC, SUBSTR;
+terminal PAIR, PAIRCHECK, CAR, CDR, PRINT, PRINTLN, READ, READINT, LIST, SUBSTR;
 terminal PROC, CALL, LAZY, LET, DEF, ISEQUAL,ISEQUIVALENT,SIZE, LVECTOR, RVECTOR;
 terminal IF, THEN, ELSE, CASE, CONCAT;
 
@@ -76,21 +76,31 @@ non terminal ArrayList idList;
 non terminal ArrayList idListE;
 
 non terminal Statement letStmt;
-non terminal Statement pairStmt;
-non terminal Statement pairStmt;
-non terminal Statement cdr;
-non terminal Statement car;
-non terminal Statement case;
-non terminal Statement pairCheck;
-non terminal Statement lazyStmt;
-non terminal Statement printStmt;
-non terminal Statement printLnStmt;
-non terminal Statement callStmt;
+
+non terminal Statement lazy;
+non terminal Statement stmtExp;
+non terminal Statement print;
+non terminal Statement println;
+
+non terminal Statement substr;
+non terminal Statement ifStmt;
 non terminal Statement read;
 non terminal Statement readint;
 non terminal ArrayList bindings;
 non terminal ArrayList bindingsAux;
 non terminal Binding binding;
+
+non terminal Exp builtIn;
+
+non terminal Exp list;
+non terminal Exp call;
+
+non terminal Exp pairStmt;
+non terminal Exp cdr;
+non terminal Exp car;
+non terminal Exp case;
+non terminal Exp pairCheck;
+non terminal Exp pair;
 
 non terminal Exp valStmt;
 non terminal Exp expression;
@@ -107,6 +117,7 @@ non terminal Exp factor;
 non terminal empty;
 
 /* Grammar rules */
+precedence left LPAREN, INTEGER, CALL, LIST, LAZY, VARIABLE, READ, CDR, SUBSTR, PAIRCHECK, BNOT, CAR, READINT, DIV,MOD, LBRACE, MUL, MINUS, PLUS, BAND, BOR, LET, IF, DEF, POW, not, PRINT, PROC;
 
 program ::= stmtList:s {: RESULT = new SmplProgram(s); :};
 
@@ -119,29 +130,40 @@ stmtList ::= stmtList:lst stmt:s {:
 		:};
 
 stmt ::= definition:d SEMI {: RESULT = d; :} |
-     	 fnDefn |
+     	 procDefn |
 	 valStmt:vs {: RESULT = vs; :}|
 	 letStmt:ls {: RESULT = ls; :}|
-	 callStmt:cs {: RESULT = cs; :}|
-	 pairStmt:ps {: RESULT = ps; :}
-	 callStmt:cs {: RESULT = cs; :}|
-	 lazyStmt:zs {: RESULT = zs; :}|
 	 ifStmt:is {: RESULT = is; :}|
 	 expression:e {:RESULT =e; :};
 
-valStmt ::= letStmt:l {: RESULT = l; :} |
-	    expression:e SEMI {: RESULT = new Statement(e); :};
+builtIn ::= pairStmt:p {: RESULT = p; :} |
+			pairCheck:pc {:RESULT = pc; :} |
+			car:c {: RESULT = c; :} |
+			cdr:c {: RESULT = c; :} |
+			list:l {: RESULT = l; :} |
+			substr:s {: RESULT = s; :}|
+			call:c {: RESULT = c; :}|
+			lazy:l {: RESULT = l; :}|
+			read:r {: RESULT = r; :}|
+			readint:r {: RESULT = r; :};
 
 letStmt ::= LET LBRACE bindings:bs RBRACE stmtList:body{:
 			RESULT = new StmtLet(bs, body);
 		:};
 		
-pairStmt::= pair LPAREN expression:e1 COMMA expression e2 RPAREN {:
+pairStmt::= pair LPAREN expression:e1 COMMA expression:e2 RPAREN {:
 		RESULT = new makePair(e1,e2);	
 		:};
 		
 pairCheck ::= PAIRCHECK LPAREN expression:e RPAREN {:
 			RESULT = new ExpPairCheck(e); :};
+
+
+list ::= LIST LPAREN idListE:id RPAREN {:
+			RESULT = new ExpList(id); :} |
+		LBRACE idListE:id RBRACE {:
+			RESULT = new ExpList(id); :} |
+		empty {: RESULT = new ExpList(); :};
 
 car ::= CAR LPAREN expression:e RPAREN {:
 			RESULT = new ExpCar(e); :};
@@ -153,20 +175,20 @@ substr ::= SUBSTR LPAREN expression:e1 COMMA expression:e2 COMMA expression:e3 R
 			RESULT = new ExpSubStr(e1, e2, e3);
 		:};
 
-callStmt::= CALL LPAREN procDefn:f COMMA idList:lst RPAREN{:
+call::= CALL LPAREN procDefn:f COMMA idList:lst RPAREN{:
 		RESULT = new makeCall(f,lst);	
 		:};
 		
-lazyStmt::= LAZY LPAREN expression:e RPAREN{:
+lazy::= LAZY LPAREN expression:e RPAREN{:
                  RESULT = new SmplLazy(e);	
 		:};
 
 ifStmt ::= IF expression:ifExp THEN expression:thenExp ELSE expression:elseExp {:
 		 RESULT = new StmtIf(ifExp, thenExp, elseExp); :};
 
-printStmt ::= PRINT LPAREN stmtExp:e RPAREN {: RESULT = new StmtPrint(e); :};
+print ::= PRINT LPAREN stmtExp:e RPAREN {: RESULT = new StmtPrint(e); :};
 
-printlnStmt ::= PRINTLN LPAREN stmtExp:e RPAREN {: RESULT = new StmtPrintLn(e); :};
+println ::= PRINTLN LPAREN stmtExp:e RPAREN {: RESULT = new StmtPrintLn(e); :};
 	   
 read ::= READ LPAREN RPAREN {:
 		RESULT = new ExpRead();
@@ -217,9 +239,12 @@ definition ::= DEF VARIABLE:v ASSIGN expression:e {:
 		:};
 
 expression ::= logicor:lo{:
-		RESULT = lo; :};
+		RESULT = lo; :}|
+        print: p {:RESULT=p;:}
+
+        println: p {:RESULT=p;:};
 		
-logicor ::= logicor:lo or logica:la{:
+logicor ::= logicor:lo or logicand:la{:
 		RESULT = new ExpLogicOr(lo,la); :} |
 	     logicand:la {: RESULT = la; :};
 		
@@ -274,7 +299,8 @@ power ::= factor:f POW power:p{:
 
 factor ::= INTEGER:ilit {: RESULT = new ExpLit(ilit); :} |
 	   VARIABLE:var {: RESULT = new ExpVar(var); :} |
-	   LPAREN expression:e RPAREN {: RESULT = e; :}	;
+	   LPAREN expression:e RPAREN {: RESULT = e; :}|
+       builtIn:b {:RESULT=b:};
 
 
 empty ::= ;
