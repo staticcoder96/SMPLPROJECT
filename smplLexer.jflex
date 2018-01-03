@@ -1,11 +1,10 @@
-/* Specification for Fractal tokens */
+/* Specification for smpl tokens */
 
 // user customisations
 
-package fractal.syntax;
+package smpl.syntax;
 import java_cup.runtime.*;
-import fractal.sys.FractalException;
-import fractal.sys.FractalLexerException;
+import smpl.sys.SmplException;
 
 // JFlex directives
     
@@ -14,8 +13,8 @@ import fractal.sys.FractalLexerException;
 %cup
 %public
 
-%class FractalLexer
-%throws FractalException
+%class SmplLexer
+%throws SmplException
 
 %type java_cup.runtime.Symbol
 
@@ -50,7 +49,52 @@ import fractal.sys.FractalLexerException;
 	return yyline + 1;
     }
 
-    public String getText() {
+    public String getText(String str) {
+    boolean Blockcomment = false;
+    boolean linecomment = false;
+    
+    for (int index=0; index<str.length(); index++){
+        char c = str.charAt(index);
+        char c2 = str.charAt(index+1);
+
+        char lc = str.charAt(index);
+        char lc2 = str.charAt(index+1);
+
+        if(c == '/' && c2 == '*'){
+                char nexxtchar = str.charAt(index+2);
+                pattern = [.]*;
+                if (nexxtchar == pattern){
+                    Blockcomment = true;
+                    continue; /*ignores block  comment*/
+                }
+        }
+        else if(c == '*' && c2 == '/'){
+            Blockcomment = false;
+            c = str.charAt(index+3);
+            continue; /*end of the block comment*/
+        }
+        else if (lc == '/' && lc2 == '/'){
+            linecomment = true;
+            lc = str.charAt(index+1);
+            continue; //ignores line comment
+        }
+        //line comment terminates at the new line marker.
+        if (linecomment){
+            if (lc2 == '\n'){
+                linecomment = false;
+                lc = str.charAt(index+2);
+                continue;
+            } else if(lc == '\n'){
+                linecomment = false;
+                lc = lc2;
+                continue;
+            } else {
+                lc = str.charAt(index+3);
+                continue;
+            }
+
+        }        
+    }
 	return yytext();
     }
 %}
@@ -61,11 +105,11 @@ cc = ([\b\f]|{nl})
 
 ws = {cc}|[\t ]
 
-comment = "//".*[\n\r]
-
-block = "/* [{nl}|.]*   */"
-
 num = [0-9]
+
+comment = getText(String str);
+
+block = getText(String str);
 
 sign = ("+"| "-")
 
@@ -75,11 +119,13 @@ hex = [0-9a-fA-F]
 
 char = [^\\\n\"] | "\\". | {hex}{4}
 
+symbols = ["?" "\\" "-" "+" "*" "!" "#" "."]
+
 floatnum =  \d+\.|\d+\.\d+ | \.[0-9][0-9][0-9]+
 
-alpha = [a-zA-Z0-9?\\-+*!?#.]* | [_a-zA-Z?] 
+alpha = [a-zA-Z] 
 
-alphnum = {floatnum}|{alpha}
+alphnum = {floatnum}|{alpha}|{num}
 
 %%
 
@@ -88,11 +134,20 @@ alphnum = {floatnum}|{alpha}
              yychar = 0;
 			}
 
-<YYINITIAL> {comment}  {
+<YYINITIAL> \" {
+        yybegin(YYSTRING);
+        }
+
+<YYSTRING> {
+            yybegin(YYINITIAL);
+        }
+
+<YYSTRING>  {comment} {
              // skip line comments
+
             }
 
-<YYINITIAL> {block}  {
+<YYSTRING> {block}  {
              // skip block comments
             }
 
@@ -137,12 +192,12 @@ alphnum = {floatnum}|{alpha}
     "]"         {return mkSymbol(sym.RBRACE);}
     ","         {return mkSymbol(sym.COMMA);}
     ":"         {return mkSymbol(sym.COLON);}
-    ";"         {return mkSymbol(sym.SEMICOLON);}
+    ";"         {return mkSymbol(sym.SEMI);}
     "{"         {return mkSymbol(sym.LCBRACE);}
     "}"         {return mkSymbol(sym.RCBRACE);}
    
 
-    """"        {return mkSymbol(sym.DQUOTES);}
+    \"\"        {return mkSymbol(sym.DQUOTES);}
     "''"        {return mkSymbol(sym.SQUOTES);}
     "#t"        {return mkSymbol(sym.TRUE,yytext());}
     "#f"        {return mkSymbol(sym.FALSE,yytext());}
@@ -176,6 +231,15 @@ alphnum = {floatnum}|{alpha}
     "eqv?"   {return mkSymbol(sym.ISEQUIVALENT);}
     "equal?"   {return mkSymbol(sym.ISEQUAL);}
     "substr"   {return mkSymbol(sym.SUBSTR);}
+
+
+
+    ([0-9]+[A-Za-z_][A-Za-z_0-9#+.-*?]*)|([A-Za-z_][A-Za-z_0-9#+.-*?]*) {
+            // IDENTIFIER
+            return new Symbol(sym.VAR, yytext());
+        }
+
+
 
 
      {sign}?{num}+         {
@@ -212,7 +276,7 @@ alphnum = {floatnum}|{alpha}
 
     "{char}*" {
         //STRING
-        return mkSymbol(sym.STRING, yytext().substring(1,yytext().length()-1);
+        return mkSymbol(sym.STRING, yytext().substring(1,yytext().length()-1));
 
     }
 
@@ -222,7 +286,7 @@ alphnum = {floatnum}|{alpha}
 	       		}
 
     .			{ // Unknown token (leave this in the last position)
-    			  throw new FractalLexerException(yytext(), getLine(),
+    			  throw new SmplException(yytext(), getLine(),
 							  getColumn());
     			}
 }
