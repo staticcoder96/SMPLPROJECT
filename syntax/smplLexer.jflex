@@ -76,9 +76,11 @@ char = [^\\\n\"] | "\\". | {hex}{4}
 
 floatnum =  \d+\.|\d+\.\d+ | \.[0-9][0-9][0-9]+
 
-alpha = [a-zA-Z0-9?\\-+*!?#.]* | [_a-zA-Z?] 
+symbols = ["?" "\\" "-" "+" "*" "!" "#" "."]
 
-alphnum = {floatnum}|{alpha}
+alpha = [a-zA-Z]
+
+alphnum = {floatnum}|{alpha}|{num}
 
 %%
 
@@ -141,7 +143,7 @@ alphnum = {floatnum}|{alpha}
     "}"         {return mkSymbol(sym.RCBRACE);}
    
 
-    """"        {return mkSymbol(sym.DQUOTES);}
+    \"\"        {return mkSymbol(sym.DQUOTES);}
     "''"        {return mkSymbol(sym.SQUOTES);}
     "#t"        {return mkSymbol(sym.TRUE,yytext());}
     "#f"        {return mkSymbol(sym.FALSE,yytext());}
@@ -175,6 +177,14 @@ alphnum = {floatnum}|{alpha}
     "eqv?"   {return mkSymbol(sym.ISEQUIVALENT);}
     "equal?"   {return mkSymbol(sym.ISEQUAL);}
     "substr"   {return mkSymbol(sym.SUBSTR);}
+    
+    
+    
+    ([0-9]+[A-Za-z_][A-Za-z_0-9#+.-*?]*)|([A-Za-z_][A-Za-z_0-9#+.-*?]*) {
+    			// IDENTIFIER
+			return new Symbol(sym.VAR, yytext());
+		}
+
 
 
      {sign}?{num}+         {
