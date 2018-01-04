@@ -98,10 +98,3 @@ println("Vector 5 (sorted): " + vec5_s);
 
 
 
-//might not use
-//repeat an expression (procedure) count amount of times.
-def for proc(count,expression){
-	if count > 0
-	then expression();
-	for(count-1,expression);	
-};
