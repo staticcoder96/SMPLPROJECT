@@ -117,7 +117,7 @@ binary = #b[01]+
 
 hex = [0-9a-fA-F]
 
-char = [^\\\n\"] | "\\". | {hex}{4}
+char = [^\\\n\"] | "\\". | \u {hex}{4}
 
 symbols = ["?" "\\" "-" "+" "*" "!" "#" "."]
 
@@ -125,7 +125,9 @@ floatnum =  \d+\.|\d+\.\d+ | \.[0-9][0-9][0-9]+
 
 alpha = [a-zA-Z] 
 
-alphnum = {floatnum}|{alpha}|{num}
+alphnum = {alpha}|{num}
+
+var = {alphnum}| {sign}
 
 %%
 
@@ -138,19 +140,15 @@ alphnum = {floatnum}|{alpha}|{num}
         yybegin(YYSTRING);
         }
 
-<YYSTRING> {
+<YYSTRING>  \" {
             yybegin(YYINITIAL);
         }
 
-<YYSTRING>  {comment} {
-             // skip line comments
-
-            }
-
-<YYSTRING> {block}  {
-             // skip block comments
-            }
-
+<YYSTRING>    [^\"]* {
+            // constant string
+            // System.out.println(yytext());
+            return new Symbol(sym.STRING, yytext());
+        }
 
 <YYINITIAL>	{ws}	{
 			 // skip whitespace
@@ -234,7 +232,7 @@ alphnum = {floatnum}|{alpha}|{num}
 
 
 
-    ([0-9]+[A-Za-z_][A-Za-z_0-9#+.-*?]*)|([A-Za-z_][A-Za-z_0-9#+.-*?]*) {
+    ([^#][0-9]+[A-Za-z_][A-Za-z_0-9#+.-*?]*)|([A-Za-z_][A-Za-z_0-9#+.-*?]*) {
             // IDENTIFIER
             return new Symbol(sym.VAR, yytext());
         }
@@ -274,16 +272,16 @@ alphnum = {floatnum}|{alpha}|{num}
 
     }
 
-    "{char}*" {
+    {char}* {
         //STRING
         return mkSymbol(sym.STRING, yytext().substring(1,yytext().length()-1));
 
     }
 
-    {alpha}{alphnum}*   {
-    		      	 // IDENTIFIERS
-	       		 return mkSymbol(sym.ID, yytext());
-	       		}
+    {var}* {
+            // VARIABLE
+            return mkSymbol(sym.VARIABLE, yytext());
+        }
 
     .			{ // Unknown token (leave this in the last position)
     			  throw new SmplException(yytext(), getLine(),
