@@ -1,0 +1,7 @@
+def f proc(x,y,z) {
+    if (x > 0)
+    then y + 1;
+    else z;
+}
+
+print f(1, 2, lazy(1/0));
