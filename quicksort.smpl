@@ -1,0 +1,107 @@
+def Quicksort proc(vector,low,high){
+	if low < high 
+	then 
+	p := low  + ((low - high)/2);
+	p:= partition(vector,low,high,p); 
+	Quicksort(vector,low,p); 
+	Quicksort(vector,p+1,high) 
+};
+
+def Partition proc(vector, low, high,p){
+	start := low;
+	end := high - 1;
+	pivot := vector[p];
+	//swap(vector,p, end-1);
+	vec := [: start, end :];
+	def new proc(vec){
+		vec[0] < vec[1];
+	};
+	//repeating function.
+	def do proc(vec){
+		if vector[vec[0]] < pivot
+		then { vec[0] := vec[0] + 1; } //placed on the left side
+		else if vector[vec[1]] >= pivot
+		then { vec[1] := vec[1] - 1; } //placed on the right side
+		else swap(vector, vec[0], vec[1]);
+		vec;
+	};
+
+	vec := while(vec, new, do);
+	x := vec[1];
+
+	if vector[x] < pivot
+	then { x := x + 1; };
+
+	swap(vector, end - 1, x);
+
+	// return new pivot
+	x;
+};
+
+// repeats expression for count until condition is false for count
+// expression is an procedure to be repeated
+// condition is a procedure that returns true or false
+//similar to a while loop.
+def while proc(count,condition,expression){
+	if condition(count)
+	then {
+		count := expression(count);
+		while(count,condition,expression);
+	};
+	count;
+
+};
+
+
+
+//swapping function
+def swap proc(vector,left,right){
+	temp := vector[left];
+	vector[left] := vector[right];
+	vector[right] := temp;	
+};
+
+//run the code
+def quicksort proc(vec) {
+	Quicksort(vec,0,size(vec))
+};
+
+//tests
+vec1 := [: 40, 38, 60, -15, 0, 9, -5, 42, -3 :];
+vec2 := [: #cha, #cr, #lo, #cl, #co, #c0020, #cw, #co, #cr, #cl, #cd, #c :];
+vec3 := [: "this", "room", "is", "hot" :];
+vec4 := [: #c0063, #c0061, #c0062, #x67, #x65, #x61 :];
+vec5 := [: "Testing", #cg, "and", 1, "or", "more", "types" :];
+
+println("Vector 1 (unsorted): " + vec1);
+vec1sorted := quicksort(vec1);
+println("Vector 1 (sorted): " + vec1sorted);
+
+println("Vector 2 (unsorted): " + vec2);
+vec2sorted := quicksort(vec2);
+println("Vector 2 (sorted): " + vec2sorted);
+
+println("Vector 3 (unsorted): " + vec3);
+vec3_sorted := quicksort(vec3);
+println("Vector 3 (sorted): " + vec3_sorted);
+
+println("Vector 4 (unsorted): " + vec4);
+vec4_sorted := quicksort(vec4);
+println("Vector 4 (sorted): " + vec4_sorted);
+
+// comparison between string and int not supported
+/*
+println("Vector 5 (unsorted): " + vec5);
+vec5_s := quicksort(vec5);
+println("Vector 5 (sorted): " + vec5_s);
+*/
+
+
+
+//might not use
+//repeat an expression (procedure) count amount of times.
+def for proc(count,expression){
+	if count > 0
+	then expression();
+	for(count-1,expression);	
+};
